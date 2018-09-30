@@ -1,0 +1,93 @@
+# Server HTTP port.
+server:
+  servlet:
+    context-path: /springboot
+    session:
+      timeout:
+  port: 8080
+  address:
+
+application.name: myDemo
+
+# 复杂对象 必须使用 ConfigurationProperties
+city:
+    - 北京
+    - 上海
+    - 深圳
+    - 南京
+    - 重庆
+
+acme:
+  list:
+    - name: my name
+      description: my description
+    - name: another name
+      description: another description
+
+  map:
+    key1:
+      name: my name 1
+      description: my description 1
+
+logging:
+  file: /log/springBootDemo.log
+
+spring:
+  security:
+    user:
+      name: admin
+      password: 123456
+  datasource:
+    url: jdbc:mysql://localhost/med2
+    jdbc-url: jdbc:mysql://localhost/med2
+    password: denglt
+    driver-class-name: "com.mysql.jdbc.Driver"
+    username: root
+    type: com.zaxxer.hikari.HikariDataSource
+    maximum-pool-size: 30
+  jdbc:
+    template:
+      max-rows: -1
+org:
+  springframework:
+    boot:
+      autoconfigure:
+        security: INFO
+
+# Actuator 监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#             - info
+#             - health
+#             - metrics
+#             - httptrace
+#             - beans
+#             - env
+#             - mappings
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+#  server:
+#    port: 9080
+
+
+#/info Endpoint
+info:
+  app:
+    name: Spring Sample Application
+    description: denglt study
+    version: 1.0.0
+
+######## end Actuator
+
+---
+spring:
+  profiles: dev
+acme:
+  list:
+    - name: my another name
+

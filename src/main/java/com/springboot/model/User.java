@@ -1,0 +1,58 @@
+package com.springboot.model;
+
+public class User {
+    private Integer id;
+    private String name;
+    private Integer age;
+    private Integer sex;
+    private String passwword;
+    private String role;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
+
+    public String getPasswword() {
+        return passwword;
+    }
+
+    public void setPasswword(String passwword) {
+        this.passwword = passwword;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+}

@@ -1,0 +1,102 @@
+package com.springboot.service;
+
+import com.springboot.model.User;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class UserServiceImpl {
+
+    private User author;
+    private User author2;
+
+    private List<User> users = new ArrayList<>();
+
+
+    @Autowired
+    private MeterRegistry meterRegistry;
+
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    private Counter  counter;
+
+
+   // @Autowired
+    public UserServiceImpl(){
+
+    }
+    @Autowired
+    public UserServiceImpl(User author, User author2) {
+        System.out.println("UserServiceImpl ->" + author + " ->" + author2);
+        this.author = author;
+        this.author2 = author2;
+        users.add(author);
+        users.add(author2);
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("meterRegistry -> " + meterRegistry);
+        counter = meterRegistry.counter("UserServiceImpl.getUsers");
+        //meterRegistry.config().commonTags("region", "us-east-1");
+        for (int i = 2; i < 10; i++) {
+            User user = new User();
+            user.setId(i);
+            user.setName("name_" + i);
+            users.add(user);
+        }
+
+        User admin = new User();
+        admin.setName("admin");
+        admin.setPasswword("admin");
+        admin.setRole("ADMIN");
+        users.add(admin);
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public User getAuthor2() {
+        return author2;
+    }
+
+    public void setAuthor2(User author2) {
+        this.author2 = author2;
+    }
+
+    public User get(Integer id) {
+        return users.stream().filter(u -> u.getId().equals(id)).findFirst().get();
+    }
+
+
+    public List<User> getUsers() {
+        counter.increment();
+       // counter.close();
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+
+}
