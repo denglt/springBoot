@@ -40,6 +40,7 @@ public class WebFluxController {
     @Autowired
     private Executor executor;
 
+
     private Scheduler scheduler;
 
     @PostConstruct
@@ -51,11 +52,13 @@ public class WebFluxController {
 
     @GetMapping("/hello")
     public Mono<String> hello() {   // 【改】返回类型为Mono<String>
+        logger.info("WebFluxController.hello()");
         return Mono.just("Welcome to reactive world ~");     // 【改】使用Mono.just生成响应式数据
     }
 
     @GetMapping("/hello2")
     public Mono<String> hello2() {   // 【改】返回类型为Mono<String>
+        logger.info("WebFluxController.hello2()");
         return Mono.fromSupplier(() -> {
             logger.info("run hello2 on WebFlux");
             return "hello world!";
@@ -64,6 +67,7 @@ public class WebFluxController {
 
     @GetMapping("/hello3")
     public Flux<String> hello3() {   // 【改】返回类型为Mono<String>
+        logger.info("WebFluxController.hello3()");
         return Flux.just("hello", "world", "!")
                 .publishOn(scheduler);
     }

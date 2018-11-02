@@ -19,7 +19,7 @@ public class RedisConfiguration {
 
     @Bean
     @Primary
-    @ConfigurationProperties(prefix = "redis")
+    @ConfigurationProperties(prefix = "spring.redis")
     public RedisProperties redisProperties() {
         return new RedisProperties();
     }

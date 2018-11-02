@@ -1,6 +1,9 @@
 package com.springboot.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
+    private static final long serialVersionUID = 6060813389471923239L;
     private Integer id;
     private String name;
     private Integer age;

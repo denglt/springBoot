@@ -26,7 +26,7 @@ public class ErrorHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     ResponseEntity<?> handleControllerException(HttpServletRequest request, Throwable ex) {
-        logger.error("",ex);
+        logger.error("handleControllerException",ex);
         HttpStatus status = getStatus(request);
         return new ResponseEntity<>(new CustomErrorType(status.value(), ex.getMessage()), status);
     }

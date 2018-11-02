@@ -8,6 +8,7 @@ import org.springframework.boot.actuate.endpoint.web.annotation.EndpointWebExten
 import org.springframework.boot.actuate.info.InfoEndpoint;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,9 +29,13 @@ public class InfoWebEndpointExtension {
 
     @ReadOperation
     public WebEndpointResponse<Map> info() {
-        Map<String, Object> info = this.delegate.info();
-        Integer status = getStatus(info);
-        return new WebEndpointResponse<>(info, status);
+        Map<String, Object> appInfo = this.delegate.info();
+        Integer status = getStatus(appInfo);
+
+        Map<String, Object> myInfo = new HashMap<>();
+        appInfo.forEach((k, v) -> myInfo.put(k, v));
+        myInfo.put("author", "denglt");
+        return new WebEndpointResponse<>(myInfo, status);
     }
 
     private Integer getStatus(Map<String, Object> info) {

@@ -48,6 +48,27 @@ spring:
   jdbc:
     template:
       max-rows: -1
+  data:
+    elasticsearch:
+       cluster-nodes: 47.106.93.69:9300
+      # properties: { es.set.netty.runtime.available.processors: false }
+
+ #CacheProperties
+  cache:
+    type: simple
+    #type: redis
+    redis:
+      key-prefix: denglt
+
+  task:
+    execution:
+      pool:
+        core-pool-size: 1
+        max-pool-size: 10
+        queue-capacity: 100
+        keep-alive-seconds: 60
+
+
 org:
   springframework:
     boot:
@@ -61,10 +82,11 @@ management:
       exposure:
         include: "*"
 #             - info
+#             - info
 #             - health
 #             - metrics
 #             - httptrace
-#             - beans
+#              - beans
 #             - env
 #             - mappings
   endpoint:

@@ -1,19 +1,19 @@
 package com.springboot.app;
 
-import com.springboot.model.User;
 import org.springframework.boot.Banner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +23,10 @@ import java.io.PrintStream;
 @EnableConfigurationProperties
 @ComponentScan(value = {"com.springboot"})
 @RestController
-@EnableAutoConfiguration(/*exclude = {DataSourceAutoConfiguration.class}*/)
+@EnableAutoConfiguration(/*exclude = {DataSourceAutoConfiguration.class}*/) // spring.factories 文件中配置了  Auto Configure
+@EnableCaching
+@EnableScheduling
+@EnableAsync
 @SpringBootApplication
 public class DemoApplication {
 
@@ -36,8 +39,8 @@ public class DemoApplication {
 
     public static void main(String[] args) {
         // System.setProperty("spring.devtools.restart.enabled", "false");
+        System.setProperty("es.set.netty.runtime.available.processors", "false");
         run2(args);
-
     }
 
     private static void run1(String[] args) {
@@ -52,6 +55,7 @@ public class DemoApplication {
         // springApplication.setApplicationContextClass();
         // springApplication.addInitializers();
         applicationContext = springApplication.run(args);
+        //springApplication.setWebApplicationType(WebApplicationType.REACTIVE);
     }
 
     private static void run2(String[] args) {
@@ -64,20 +68,8 @@ public class DemoApplication {
                 // .initializers()
                 // .listeners()
                 .logStartupInfo(true)
+               // .web(WebApplicationType.REACTIVE)
                 .run(args);
-    }
-
-    @Bean("author")
-    @Scope("singleton")  // singleton // prototype // session
-    public User author() {
-        System.out.println("create author");
-        User author = new User();
-        author.setId(1);
-        author.setName("denglt");
-        author.setPasswword("123456");
-        author.setAge(18);
-        author.setSex(1);
-        return author;
     }
 
     @RequestMapping("/exit")

@@ -4,12 +4,10 @@ import com.springboot.model.User;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +27,8 @@ public class UserServiceImpl {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+ /*   @Autowired
+    private StringRedisTemplate stringRedisTemplate;*/
 
     private Counter  counter;
 

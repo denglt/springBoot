@@ -4,6 +4,7 @@ package com.springboot.restapi;
 import com.springboot.model.User;
 import com.springboot.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,9 @@ public class UserController {
     @Autowired
     UserServiceImpl userService;
 
+    @Cacheable(value = "user")
     @RequestMapping(value = "/{userId}", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    User get(@PathVariable(value = "userId") Integer userId) {
+    public User get(@PathVariable(value = "userId") Integer userId) {
         System.out.println("userId -> " + userId);
         return userService.get(userId);
     }

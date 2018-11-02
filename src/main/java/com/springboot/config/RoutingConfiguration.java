@@ -29,7 +29,7 @@ public class RoutingConfiguration {
     @Bean
     public RouterFunction<ServerResponse> monoRouterFunction() {
         System.out.println("RouterFunction<ServerResponse> monoRouterFunction()");
-      //  return RouterFunctions.route(RequestPredicates.GET("/rfUser"), r -> getUser(r));
+        //return RouterFunctions.route(RequestPredicates.GET("/rfUser"), r -> getUser(r));
 
         return RouterFunctions.route(RequestPredicates.GET("/rfUser").and(accept(APPLICATION_JSON, TEXT_PLAIN)), this::getUser);
     }
