@@ -6,6 +6,7 @@ server:
       timeout:
   port: 8080
   address:
+  connection-timeout: 10s
 
 application.name: myDemo
 
@@ -31,12 +32,19 @@ acme:
 
 logging:
   file: /log/springBootDemo.log
+  level:
+    root: info
 
 spring:
   security:
     user:
       name: admin
       password: 123456
+  jta:
+    enabled: false
+    atomikos:
+      properties:
+        enable-logging: true
   datasource:
     url: jdbc:mysql://localhost/med2
     jdbc-url: jdbc:mysql://localhost/med2
@@ -68,7 +76,10 @@ spring:
         queue-capacity: 100
         keep-alive-seconds: 60
 
-
+    scheduler:
+      pool:
+        pool-size: 5
+        thread-name-prefix: my-scheduled-pool
 org:
   springframework:
     boot:
@@ -86,7 +97,7 @@ management:
 #             - health
 #             - metrics
 #             - httptrace
-#              - beans
+#             - beans
 #             - env
 #             - mappings
   endpoint:
@@ -103,6 +114,8 @@ info:
     name: Spring Sample Application
     description: denglt study
     version: 1.0.0
+  extend: false
+
 
 ######## end Actuator
 

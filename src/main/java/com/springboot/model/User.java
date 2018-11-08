@@ -11,6 +11,15 @@ public class User implements Serializable {
     private String passwword;
     private String role;
 
+    public User(){
+
+    }
+
+
+    public User(String userName){
+        this.name = userName;
+    }
+
     public Integer getId() {
         return id;
     }

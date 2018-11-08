@@ -14,8 +14,12 @@ import java.util.List;
 @Service
 public class UserServiceImpl {
 
+  //  @Autowired
     private User author;
+
+  //  @Autowired
     private User author2;
+
 
     private List<User> users = new ArrayList<>();
 
@@ -33,12 +37,12 @@ public class UserServiceImpl {
     private Counter  counter;
 
 
-   // @Autowired
     public UserServiceImpl(){
 
     }
+
     @Autowired
-    public UserServiceImpl(User author, User author2) {
+    public UserServiceImpl(User author , User author2) {
         System.out.println("UserServiceImpl ->" + author + " ->" + author2);
         this.author = author;
         this.author2 = author2;

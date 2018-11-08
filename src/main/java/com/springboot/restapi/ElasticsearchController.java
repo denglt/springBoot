@@ -11,11 +11,13 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.Size;
 
 /**
  * @Description:
@@ -24,6 +26,8 @@ import javax.annotation.Resource;
  * @Date: 2018/11/1 10:54 AM
  * @Copyright: 版权归 HSYUNTAI 所有
  */
+
+@Validated
 @RestController
 public class ElasticsearchController {
 
@@ -34,7 +38,7 @@ public class ElasticsearchController {
     private ElasticsearchTemplate elasticsearchTemplate;
 
     @RequestMapping(value = "/search", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    JSONObject search(String address) {
+    JSONObject search(@Size(min = 2, max = 10) String address) {
 
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         boolQueryBuilder.must(QueryBuilders.matchQuery("address", address));  // and

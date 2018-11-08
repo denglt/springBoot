@@ -3,6 +3,7 @@ package com.springboot.config;
 import com.springboot.app.MyStartupRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,22 +25,26 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableScheduling
+@ConfigurationProperties(prefix = "spring.task.scheduler.pool")
 public class SchedulerConfig implements SchedulingConfigurer {
+
     private static final Logger logger = LoggerFactory.getLogger(MyStartupRunner.class);
-    private final int POOL_SIZE = 10;
+    private int poolSize = 10;
+    private String threadNamePrefix = "my-scheduled-task-pool-";
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
         ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
 
-        threadPoolTaskScheduler.setPoolSize(POOL_SIZE);
-        threadPoolTaskScheduler.setThreadNamePrefix("my-scheduled-task-pool-");
+        threadPoolTaskScheduler.setPoolSize(poolSize);
+        threadPoolTaskScheduler.setThreadNamePrefix(threadNamePrefix);
+        System.out.println(threadNamePrefix);
         threadPoolTaskScheduler.initialize();
 
         scheduledTaskRegistrar.setTaskScheduler(threadPoolTaskScheduler);
     }
 
-    @Scheduled(fixedRate = 2000)
+   // @Scheduled(fixedRate = 2000)
     public void scheduleTaskWithFixedRate() {
         logger.info("Fixed Rate Task :: Execution Time - {}", LocalDateTime.now());
         try {
@@ -50,7 +55,7 @@ public class SchedulerConfig implements SchedulingConfigurer {
         }
     }
 
-    @Scheduled(fixedDelay = 2000)
+    //@Scheduled(fixedDelay = 2000)
     public void scheduleTaskWithFixedDelay() {
         logger.info("Fixed Delay Task :: Execution Time - {}", LocalDateTime.now());
         try {
@@ -59,5 +64,21 @@ public class SchedulerConfig implements SchedulingConfigurer {
             logger.error("Ran into an error {}", ex);
             throw new IllegalStateException(ex);
         }
+    }
+
+    public int getPoolSize() {
+        return poolSize;
+    }
+
+    public void setPoolSize(int poolSize){
+        this.poolSize = poolSize;
+    }
+
+    public String getThreadNamePrefix() {
+        return threadNamePrefix;
+    }
+
+    public void setThreadNamePrefix(String threadNamePrefix) {
+        this.threadNamePrefix = threadNamePrefix;
     }
 }

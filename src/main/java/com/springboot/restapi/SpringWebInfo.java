@@ -1,5 +1,9 @@
 package com.springboot.restapi;
 
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +20,12 @@ import java.util.*;
 
 @RestController
 @RequestMapping(value = "springweb")
-public class SpringWebInfo {
+public class SpringWebInfo implements ApplicationContextAware {
 
+    public SpringWebInfo(List<Object> objects){
+        System.out.println("SpringWebInfo ->" + objects.size());
+        objects.stream().filter( o -> o instanceof SpringWebInfo).forEach(System.out::println);
+    }
 
     @RequestMapping(value = "appContext")
     public String infoApplicationContext(HttpServletRequest request) {
@@ -87,4 +95,18 @@ public class SpringWebInfo {
         System.out.println(sr);
         return null;
     }
+
+    @RequestMapping(value = "debugBean")
+    public String debugBean(String beanName) {
+        Object bean =  applicationContext.getBean(beanName);
+        System.out.println(bean);
+        return "ok";
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    private ApplicationContext applicationContext;
 }

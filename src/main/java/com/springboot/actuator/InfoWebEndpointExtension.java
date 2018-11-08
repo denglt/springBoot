@@ -6,6 +6,7 @@ import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.boot.actuate.endpoint.web.WebEndpointResponse;
 import org.springframework.boot.actuate.endpoint.web.annotation.EndpointWebExtension;
 import org.springframework.boot.actuate.info.InfoEndpoint;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import java.util.Map;
  * @Copyright: 版权归 HSYUNTAI 所有
  */
 @Component
+@ConditionalOnProperty(prefix = "info",value ="extend" , havingValue = "true", matchIfMissing = false)
 @EndpointWebExtension(endpoint = InfoEndpoint.class)
 public class InfoWebEndpointExtension {
 

@@ -3,6 +3,7 @@ package com.springboot.restapi;
 import com.springboot.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 /**
@@ -42,6 +44,12 @@ public class WebFluxController {
 
 
     private Scheduler scheduler;
+
+    public WebFluxController(ObjectProvider<List<Object>> objects){
+   /*     System.out.println("WebFluxController ->" + objects.size());
+        objects.stream().filter( o -> o instanceof WebFluxController).forEach(System.out::println);*/
+    }
+
 
     @PostConstruct
     void init() {

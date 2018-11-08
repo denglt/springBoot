@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
  * @Copyright: 版权归 HSYUNTAI 所有
  */
 
+/**
+ * 可以处理@Validation
+ */
 
 @ControllerAdvice   // 无法拦截 mapping error , spring boot ErrorController 可以
 public class ErrorHandler {
