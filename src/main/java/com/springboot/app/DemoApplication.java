@@ -28,7 +28,7 @@ import java.io.PrintStream;
 @EnableScheduling
 @EnableAsync
 @SpringBootApplication
-public class DemoApplication {
+public class DemoApplication {  // SpringBootServletInitializer  for spring boot war
 
     private static ConfigurableApplicationContext applicationContext;
 
