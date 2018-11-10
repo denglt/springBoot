@@ -24,7 +24,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 
 @Configuration
 @EnableWebFlux
-public class RoutingConfiguration {
+public class RoutingConfig {
 
     @Bean
     public RouterFunction<ServerResponse> monoRouterFunction() {

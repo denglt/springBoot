@@ -80,6 +80,9 @@ spring:
       pool:
         pool-size: 5
         thread-name-prefix: my-scheduled-pool
+  session:
+    store-type: none
+
 org:
   springframework:
     boot:

@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @Configuration
 @PropertySource("classpath:redis.properties")  // 不支持 yaml
-public class RedisConfiguration {
+public class RedisConfig {
 
     @Bean
     @Primary

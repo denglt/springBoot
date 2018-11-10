@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 @EnableScheduling
 @ConfigurationProperties(prefix = "spring.task.scheduler.pool")
-public class SchedulerConfig implements SchedulingConfigurer {
+public class TaskSchedulerConfig implements SchedulingConfigurer {
 
     private static final Logger logger = LoggerFactory.getLogger(MyStartupRunner.class);
     private int poolSize = 10;
