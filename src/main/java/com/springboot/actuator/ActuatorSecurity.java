@@ -30,7 +30,7 @@ public class ActuatorSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/actuator/**").hasRole("ADMIN")//ADMIN role can access /admin/**
-                .anyRequest().authenticated()//any other request just need authentication
+                //.anyRequest().authenticated()//any other request just need authentication
                 .and()
                 .formLogin();//enable form login
 

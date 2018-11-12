@@ -43,10 +43,23 @@ public class DemoApplicationTests {
 
     @Test
     public void syncRequest() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders. get("/springboot/user/1"))
-                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/user/1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                // .andExpect(MockMvcResultMatchers.content().string("Honda Civic"))
+                .andReturn();
         System.out.println(mvcResult);
         System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    public void asyncRequest() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/async/shortCallable"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                // .andExpect(MockMvcResultMatchers.content().string("Honda Civic"))
+                .andReturn();
+        System.out.println(mvcResult);
+        System.out.println("同步结果：" + mvcResult.getResponse().getContentAsString());
+        System.out.println("异步结果：" + mvcResult.getAsyncResult());
     }
 
 }
