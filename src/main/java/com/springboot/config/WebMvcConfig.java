@@ -118,6 +118,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new AsyncLogHandlerInterceptor()).addPathPatterns("/async/*");
     }
 
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        //registry.add
+    }
+
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+
+    }
+
     class UserLogHandlerInterceptor implements HandlerInterceptor {
 
         @Override

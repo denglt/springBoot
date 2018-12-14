@@ -10,6 +10,7 @@ server:
 
 application.name: myDemo
 
+
 # 复杂对象 必须使用 ConfigurationProperties
 city:
     - 北京
@@ -33,13 +34,14 @@ acme:
 logging:
   file: /log/springBootDemo.log
   level:
-    root: info
+    root: debug
 
 spring:
   security:
     user:
       name: admin
-      password: 123456
+      password: admin
+      roles: ADMIN
   jta:
     enabled: false
     atomikos:
@@ -59,7 +61,7 @@ spring:
   data:
     elasticsearch:
        cluster-nodes: 47.106.93.69:9300
-      # properties: { es.set.netty.runtime.available.processors: false }
+       #properties: { es.set.netty.runtime.available.processors: false }
 
  #CacheProperties
   cache:
@@ -107,6 +109,9 @@ management:
     health:
       enabled: true
       show-details: always
+  server:
+    servlet:
+      context-path:
 #  server:
 #    port: 9080
 
@@ -122,6 +127,7 @@ info:
 
 ######## end Actuator
 
+#yml文件中支持使用三个短横线分割文档块的方式
 ---
 spring:
   profiles: dev

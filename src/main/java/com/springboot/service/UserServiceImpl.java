@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +70,7 @@ public class UserServiceImpl {
         users.add(admin);
     }
 
+    @Transactional
     public User getAuthor() {
         return author;
     }
@@ -85,7 +87,9 @@ public class UserServiceImpl {
         this.author2 = author2;
     }
 
+    @Transactional
     public User get(Integer id) {
+        System.out.println("get user -> " + id);
         return users.stream().filter(u -> u.getId().equals(id)).findFirst().get();
     }
 

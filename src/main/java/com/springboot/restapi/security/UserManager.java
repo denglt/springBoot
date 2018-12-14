@@ -3,6 +3,7 @@ package com.springboot.restapi.security;
 import com.springboot.model.User;
 import com.springboot.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 /**
+ * 登录成功发送：AuthenticationSuccessEvent
+ *
  * @Description:
  * @Package: com.springboot.restapi.security
  * @Author: denglt
@@ -19,7 +22,6 @@ import java.util.Optional;
  * @Copyright: 版权归 HSYUNTAI 所有
  */
 
-@Component
 public class UserManager implements UserDetailsService {
 
     @Autowired

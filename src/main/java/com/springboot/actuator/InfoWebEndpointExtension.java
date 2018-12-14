@@ -20,7 +20,7 @@ import java.util.Map;
  * @Copyright: 版权归 HSYUNTAI 所有
  */
 @Component
-@ConditionalOnProperty(prefix = "info",value ="extend" , havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = "info", value = "extend", havingValue = "true", matchIfMissing = false)
 @EndpointWebExtension(endpoint = InfoEndpoint.class)
 public class InfoWebEndpointExtension {
 

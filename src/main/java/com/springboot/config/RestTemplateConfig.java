@@ -29,12 +29,15 @@ public class RestTemplateConfig {
         return (restTemplate -> {
           //  restTemplate.setRequestFactory();
           //  restTemplate.setMessageConverters();
+            // 把自定义的ClientHttpRequestInterceptor添加到RestTemplate，可添加多个
+           // restTemplate.setInterceptors();
         });
     }
 
     @Bean
     RestTemplate restTemplate(RestTemplateBuilder builder){
         return builder.build();
+        // return new RestTemplate(); //这个RestTemplate无法被 RestTemplateCustomizer感知(@see RestTemplateAutoConfiguration)
     }
 
 }

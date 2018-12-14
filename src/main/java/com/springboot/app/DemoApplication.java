@@ -3,6 +3,7 @@ package com.springboot.app;
 import org.springframework.boot.Banner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -44,13 +45,14 @@ public class DemoApplication {  // SpringBootServletInitializer  for spring boot
     }
 
     private static void run1(String[] args) {
-        SpringApplication springApplication = new SpringApplication(DemoApplication.class);
+        SpringApplication springApplication = new SpringApplication(DemoApplication.class); // AnnotationConfigApplicationContext,AnnotationConfigServletWebServerApplicationContext
         springApplication.setBanner(new Banner() {
             @Override
             public void printBanner(Environment environment, Class<?> sourceClass, PrintStream out) {
                 out.println("hello world by denglt!");
             }
         });
+      //  springApplication.setWebApplicationType(WebApplicationType.NONE);
         springApplication.setBannerMode(Banner.Mode.CONSOLE);
         // springApplication.setApplicationContextClass();
         // springApplication.addInitializers();

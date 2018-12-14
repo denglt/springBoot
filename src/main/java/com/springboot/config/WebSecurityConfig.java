@@ -1,8 +1,11 @@
-package com.springboot.actuator;
+package com.springboot.config;
 
+import com.springboot.restapi.security.UserManager;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.stereotype.Component;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * @Description:
@@ -12,8 +15,8 @@ import org.springframework.stereotype.Component;
  * @Copyright: 版权归 HSYUNTAI 所有
  */
 
-@Component
-public class ActuatorSecurity extends WebSecurityConfigurerAdapter {
+@Configuration
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //@Override
     protected void configure_del(HttpSecurity http) throws Exception {
@@ -26,13 +29,23 @@ public class ActuatorSecurity extends WebSecurityConfigurerAdapter {
 
     }
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.authorizeRequests()
                 .antMatchers("/actuator/**").hasRole("ADMIN")//ADMIN role can access /admin/**
                 //.anyRequest().authenticated()//any other request just need authentication
                 .and()
                 .formLogin();//enable form login
 
+    }
+
+
+    @Bean
+    @Override
+    protected UserDetailsService userDetailsService() {
+       // return super.userDetailsService();  // 使用本地（spring.security）配置的权限
+        return new UserManager();
     }
 }

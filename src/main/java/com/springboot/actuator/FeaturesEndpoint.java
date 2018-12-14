@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * 自定actuator endpoint
  * @Description:
  * @Package: com.springboot.actuator
  * @Author: denglt
@@ -14,8 +15,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Copyright: 版权归 HSYUNTAI 所有
  */
 @Component
-@Endpoint(id = "features")
-public class FeaturesEndpoint {
+@Endpoint(id = "myfeatures")
+public class FeaturesEndpoint { // sample:  org.springframework.cloud.client.actuator.FeaturesEndpoint
 
     private Map<String, Feature> features = new ConcurrentHashMap<>();
 

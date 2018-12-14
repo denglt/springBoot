@@ -1,9 +1,15 @@
 package com.springboot.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.annotation.TransactionManagementConfigurer;
+
+import javax.sql.DataSource;
 
 /**
  * 入口 @see  TransactionAutoConfiguration (JtaAutoConfiguration ,  DataSourceTransactionManagerAutoConfiguration)
+ *
  * @Description:
  * @Package: com.springboot.config
  * @Author: denglt
@@ -12,7 +18,27 @@ import org.springframework.context.annotation.Configuration;
  */
 
 @Configuration
+// @EnableTransactionManagement
 public class TransactionConfig {
 
+    // PlatformTransactionManagerCustomizer
 
+    /**
+     *  可以把 DataSourceTransactionManager 直接注入到 TransactionInterceptor.transactionManager
+     *  @see  TransactionManagementConfigurationSelector
+     *  @see  ProxyTransactionManagementConfiguration
+     *
+     * 默认使用： JpaTransactionManager
+     * @param dataSource
+     * @return
+     */
+    @Bean
+    public TransactionManagementConfigurer transactionManagementConfigurer(DataSource dataSource) {
+        return () -> new DataSourceTransactionManager(dataSource);
+    }
+
+/*    @Bean
+    public PlatformTransactionManager transactionManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }*/
 }
