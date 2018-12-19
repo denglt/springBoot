@@ -34,7 +34,7 @@ acme:
 logging:
   file: /log/springBootDemo.log
   level:
-    root: debug
+    root: info
 
 spring:
   security:
