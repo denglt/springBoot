@@ -4,6 +4,7 @@ import com.springboot.restapi.security.UserManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  */
 
 @Configuration
+@EnableWebSecurity(debug = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //@Override
@@ -32,13 +34,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+        //http.csrf()
         http.authorizeRequests()
                 .antMatchers("/actuator/**").hasRole("ADMIN")//ADMIN role can access /admin/**
                 //.anyRequest().authenticated()//any other request just need authentication
                 .and()
                 .formLogin();//enable form login
-
+      // super.configure(http);
     }
 
 
