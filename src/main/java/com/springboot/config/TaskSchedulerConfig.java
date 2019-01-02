@@ -24,16 +24,16 @@ import java.util.concurrent.TimeUnit;
 //<task:scheduler id="taskScheduler" pool-size="3" />
 
 @Configuration
-@EnableScheduling
+@EnableScheduling  // SchedulingConfiguration -> ScheduledAnnotationBeanPostProcessor
 @ConfigurationProperties(prefix = "spring.task.scheduler.pool")
-public class TaskSchedulerConfig implements SchedulingConfigurer {
+public class TaskSchedulerConfig implements SchedulingConfigurer {  // ScheduledAnnotationBeanPostProcessor 会处理该接口
 
     private static final Logger logger = LoggerFactory.getLogger(MyStartupRunner.class);
     private int poolSize = 10;
     private String threadNamePrefix = "my-scheduled-task-pool-";
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
+    public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {  // ScheduledTaskRegistrar (默认会创建一个 Executors.newSingleThreadScheduledExecutor())
         ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
 
         threadPoolTaskScheduler.setPoolSize(poolSize);
@@ -44,7 +44,7 @@ public class TaskSchedulerConfig implements SchedulingConfigurer {
         scheduledTaskRegistrar.setTaskScheduler(threadPoolTaskScheduler);
     }
 
-   // @Scheduled(fixedRate = 2000)
+    @Scheduled(fixedRate = 2000)
     public void scheduleTaskWithFixedRate() {
         logger.info("Fixed Rate Task :: Execution Time - {}", LocalDateTime.now());
         try {

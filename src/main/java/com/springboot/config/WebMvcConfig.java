@@ -28,9 +28,10 @@ import java.util.Collections;
  */
 
 /**
- * WebMvc的配置
+ * WebMvc的配置  （spring @EnableWebMvc -> WebMvcConfigurationSupport -> RequestMappingHandlerMapping ）
  *
- * @see WebMvcAutoConfiguration(WebMvcAutoConfigurationAdapter ,EnableWebMvcConfiguration )  HttpMessageConvertersAutoConfiguration
+ * Spring boot  @see WebMvcAutoConfiguration (WebMvcAutoConfigurationAdapter ,EnableWebMvcConfiguration )  HttpMessageConvertersAutoConfiguration
+ *
  */
 @Configuration
 //@ServletComponentScan(basePackages = "com.springboot")  // scan @WebServlet, @WebFilter, @WebListener (servlet 3.0)

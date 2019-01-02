@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
  *  see to RedisAutoConfiguration
  */
 @Configuration
-@PropertySource("classpath:redis.properties")  // 不支持 yaml
+@PropertySource("classpath:redis.properties")  // 不支持 yaml；   不支持 @Value和 支持Environment(没亲自测试)
 public class RedisConfig {
 
     @Bean

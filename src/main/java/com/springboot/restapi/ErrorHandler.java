@@ -22,7 +22,10 @@ import javax.servlet.http.HttpServletRequest;
  * 可以处理@Validation
  */
 
-@ControllerAdvice   // 无法拦截 mapping error , spring boot ErrorController 可以
+
+@ControllerAdvice   //ControllerAdvice 为 Spring 错误拦截， 无法拦截 mapping error ,
+                    // spring boot ErrorController 可以实现 (@see ErrorMvcAutoConfiguration 注入BasicErrorController)
+                    // spring boot 通过 TomcatErrorPage  向Tomcat的上下文中写入ErrorPage("/error")来实现的 ,
 public class ErrorHandler {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
