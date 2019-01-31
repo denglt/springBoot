@@ -32,8 +32,8 @@ import java.util.concurrent.Executor;
  * spring WebFlux
  */
 
-@RequestMapping("/webflux")
 @RestController
+@RequestMapping("/webflux")
 public class WebFluxController {
 
     @Autowired

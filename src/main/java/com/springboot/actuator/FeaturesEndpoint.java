@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 自定actuator endpoint
+ * 自定actuator endpoint (@see ControllerEndpointHandlerMapping)
  * @Description:
  * @Package: com.springboot.actuator
  * @Author: denglt

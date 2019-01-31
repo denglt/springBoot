@@ -3,6 +3,7 @@ package com.springboot.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import javax.sql.DataSource;
@@ -18,7 +19,20 @@ import javax.sql.DataSource;
  */
 
 @Configuration
-// @EnableTransactionManagement
+// @EnableTransactionManagement // TransactionAutoConfiguration 中自动配置
+/**
+ *   EnableTransactionManagement 加载：
+ *     1、AutoProxyRegistran
+ *         AopConfigUtils.registerAutoProxyCreatorIfNecessary(registry);
+
+       2、ProxyTransactionManagementConfiguration
+        加载：
+            BeanFactoryTransactionAttributeSourceAdvisor
+            AnnotationTransactionAttributeSource
+            TransactionInterceptor
+ *
+ *
+ */
 public class TransactionConfig {
 
     // PlatformTransactionManagerCustomizer
