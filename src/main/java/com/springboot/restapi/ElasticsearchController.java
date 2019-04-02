@@ -21,7 +21,7 @@ import javax.validation.constraints.Size;
 
 /**
  * @Description:
- * @Package: com.springboot.restapi
+ * @Package: com.springboot.restapiU
  * @Author: denglt
  * @Date: 2018/11/1 10:54 AM
  * @Copyright: 版权归 HSYUNTAI 所有

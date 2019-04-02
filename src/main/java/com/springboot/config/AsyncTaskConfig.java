@@ -49,7 +49,9 @@ public class AsyncTaskConfig implements AsyncConfigurer, InitializingBean {
     @Override
     @Bean("myExecutor")
     public Executor getAsyncExecutor() {
-        return taskExecutor;
+
+        return taskExecutor;  // 可以使用LazyTraceExecutor包装，确保traceId和spanId正确的传递
+
     }
 
     public int getCorePoolSize() {
