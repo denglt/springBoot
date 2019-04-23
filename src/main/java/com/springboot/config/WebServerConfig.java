@@ -27,7 +27,7 @@ public class WebServerConfig implements WebServerFactoryCustomizer<ConfigurableS
     @Override
     public void customize(ConfigurableServletWebServerFactory server) {
         System.out.println("WebServerFactory -> " + server);
-        server.setPort(9000);
+       // server.setPort(9000);
         if (server instanceof TomcatServletWebServerFactory){
             TomcatServletWebServerFactory tomcatServletWebServerFactory =(TomcatServletWebServerFactory) server;
             tomcatServletWebServerFactory.addConnectorCustomizers( connector -> {

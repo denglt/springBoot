@@ -32,7 +32,7 @@ acme:
       description: my description 1
 
 logging:
-  file: /log/springBootDemo.log
+  file: /log/${spring.application.name}/springBootDemo.log
   level:
     root: info
 
@@ -48,11 +48,11 @@ spring:
       properties:
         enable-logging: true
   datasource:
-    url: jdbc:mysql://localhost/med2
-    jdbc-url: jdbc:mysql://localhost/med2
-    password: denglt
+    url: jdbc:mysql://10.0.0.97/med2
+    jdbc-url: jdbc:mysql://10.0.0.97/med2
     driver-class-name: "com.mysql.jdbc.Driver"
     username: root
+    password: 123456
     type: com.zaxxer.hikari.HikariDataSource
     maximum-pool-size: 30
   jdbc:
@@ -84,6 +84,8 @@ spring:
         thread-name-prefix: my-scheduled-pool
   session:
     store-type: none
+  application:
+    name: demo
 
 org:
   springframework:
