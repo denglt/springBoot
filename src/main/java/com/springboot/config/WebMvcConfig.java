@@ -10,6 +10,8 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
+import org.springframework.http.converter.xml.SourceHttpMessageConverter;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,7 +19,10 @@ import org.springframework.web.servlet.config.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @Description:
@@ -50,8 +55,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public HttpMessageConverters customConverters() {
         HttpMessageConverter jsonHttpMessageConverter = new FastJsonHttpMessageConverter();
-        return new HttpMessageConverters(false, Collections.singletonList(jsonHttpMessageConverter));
-        // return new HttpMessageConverters(true, Collections.singletonList(jsonHttpMessageConverter) );
+        HttpMessageConverter jaxb2RootElementHttpMessageConverter = new Jaxb2RootElementHttpMessageConverter();
+        HttpMessageConverter sourceHttpMessageConverter = new SourceHttpMessageConverter();
+        List<HttpMessageConverter<?>> converterList = new ArrayList<>();
+        converterList.add(jsonHttpMessageConverter);
+       // converterList.add(jaxb2RootElementHttpMessageConverter);
+        converterList.add(sourceHttpMessageConverter);
+       // return new HttpMessageConverters(false, converterList);
+         return new HttpMessageConverters(true, Collections.singletonList(jsonHttpMessageConverter) );
 
     }
 

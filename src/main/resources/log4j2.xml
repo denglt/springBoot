@@ -11,7 +11,7 @@
 		<!-- 定义控制台输出 -->
 		<Console name="console" target="SYSTEM_OUT" follow="true">
 			<Filters>
-				<ThresholdFilter level="${log-level}" onMatch="ACCEPT" onMismatch="DENY"/>
+				<ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
 			</Filters>
             <PatternLayout pattern="${CONSOLE_LOG_PATTERN}"/>
 		</Console >
@@ -44,6 +44,12 @@
 	</Appenders>
 
 	<Loggers>
+		<!--  additivity开启的话，由于这个logger也是满足root的，所以会被打印两遍 -->
+		<Logger name="org.springframework.core" level="error" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="error" />
+		</Logger>
+
 		<Root level="${log-level}"> <!-- 全局配置 -->
 			<AppenderRef ref="console" />
 			<AppenderRef ref="default" />

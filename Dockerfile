@@ -4,6 +4,8 @@ WORKDIR /app
 ARG JAR_FILE
 COPY ${JAR_FILE}  /app/myserver.jar
 EXPOSE 8080
+
+# _JAVA_OPTIONS ( 该参数 openjdk , HotSpot 都支持)
 ENV _JAVA_OPTIONS "-Xms256m -Xmx512m -Djava.awt.headless=true"
 CMD java -jar myserver.jar
 #CMD ["java","-jar","myserver.jar"]

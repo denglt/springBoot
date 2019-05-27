@@ -48,11 +48,11 @@ spring:
       properties:
         enable-logging: true
   datasource:
-    url: jdbc:mysql://10.0.0.97/med2
-    jdbc-url: jdbc:mysql://10.0.0.97/med2
+    url: jdbc:mysql://112.124.33.7/med2
+    jdbc-url: jdbc:mysql://112.124.33.7/med2
     driver-class-name: "com.mysql.jdbc.Driver"
-    username: root
-    password: 123456
+    username: med
+    password: medicalcore01
     type: com.zaxxer.hikari.HikariDataSource
     maximum-pool-size: 30
   jdbc:
