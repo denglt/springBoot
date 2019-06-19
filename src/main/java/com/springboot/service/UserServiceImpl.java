@@ -6,19 +6,19 @@ import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserServiceImpl {
 
-  //  @Autowired
+    //  @Autowired
     private User author;
 
-  //  @Autowired
+    //  @Autowired
     private User author2;
 
 
@@ -35,15 +35,15 @@ public class UserServiceImpl {
  /*   @Autowired
     private StringRedisTemplate stringRedisTemplate;*/
 
-    private Counter  counter;
+    private Counter counter;
 
 
-    public UserServiceImpl(){
+    public UserServiceImpl() {
 
     }
 
     @Autowired
-    public UserServiceImpl(User author , User author2) {
+    public UserServiceImpl(User author, User author2) {
         System.out.println("UserServiceImpl ->" + author + " ->" + author2);
         this.author = author;
         this.author2 = author2;
@@ -87,7 +87,7 @@ public class UserServiceImpl {
         this.author2 = author2;
     }
 
-    @Transactional
+    @Transactional(value = "txManager2")
     public User get(Integer id) {
         System.out.println("get user -> " + id);
         return users.stream().filter(u -> u.getId().equals(id)).findFirst().get();
@@ -96,7 +96,7 @@ public class UserServiceImpl {
 
     public List<User> getUsers() {
         counter.increment();
-       // counter.close();
+        // counter.close();
         return users;
     }
 

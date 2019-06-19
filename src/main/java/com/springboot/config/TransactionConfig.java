@@ -1,8 +1,10 @@
 package com.springboot.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
@@ -38,6 +40,7 @@ public class TransactionConfig {
     // PlatformTransactionManagerCustomizer
 
     /**
+     *  实现接口 TransactionManagementConfigurer 指定默的TransactionManager
      *  可以把 DataSourceTransactionManager 直接注入到 TransactionInterceptor.transactionManager
      *  @see  TransactionManagementConfigurationSelector
      *  @see  ProxyTransactionManagementConfiguration
@@ -51,8 +54,9 @@ public class TransactionConfig {
         return () -> new DataSourceTransactionManager(dataSource);
     }
 
-/*    @Bean
-    public PlatformTransactionManager transactionManager(DataSource dataSource) {
+    @Bean
+    @Qualifier("txManager2")
+    public PlatformTransactionManager transactionManager(@Qualifier("secondDataSource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
-    }*/
+    }
 }
