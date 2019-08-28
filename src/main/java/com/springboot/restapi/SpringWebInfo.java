@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
@@ -17,14 +18,15 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "springweb")
 public class SpringWebInfo implements ApplicationContextAware {
 
-    public SpringWebInfo(List<Object> objects){
+    public SpringWebInfo(List<Object> objects) {
         System.out.println("SpringWebInfo ->" + objects.size());
-        objects.stream().filter( o -> o instanceof SpringWebInfo).forEach(System.out::println);
+        objects.stream().filter(o -> o instanceof SpringWebInfo).forEach(System.out::println);
     }
 
     @RequestMapping(value = "appContext")
@@ -62,7 +64,7 @@ public class SpringWebInfo implements ApplicationContextAware {
         RequestMappingHandlerAdapter adapter = null;
         if (context.containsBean("requestMappingHandlerAdapter")) {
             adapter = (RequestMappingHandlerAdapter) context.getBean("requestMappingHandlerAdapter");
-            sb.append("用户定义RequestMappingHandlerAdapter:" + adapter + "\n");
+            sb.append("用户定义RequestMappingHandlerAdapter => " + adapter + "\n");
             if (adapter != null) {
                 List<HttpMessageConverter<?>> coverters = adapter.getMessageConverters();
                 sb.append("MessageConverters:\n");
@@ -72,15 +74,19 @@ public class SpringWebInfo implements ApplicationContextAware {
             }
         }
         sb.append("\n\n\n");
-        adapter = (RequestMappingHandlerAdapter) context.getBean("org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter#0");
-        sb.append("Spring默认RequestMappingHandlerAdapter:" + adapter + "\n");
-        if (adapter != null) {
-            List<HttpMessageConverter<?>> coverters = adapter
-                    .getMessageConverters();
-            sb.append("MessageConverters:\n");
-            for (HttpMessageConverter converter : coverters) {
-                sb.append(converter.getClass().getName() + "=" + converter + "\n");
+        try {
+            adapter = (RequestMappingHandlerAdapter) context.getBean("org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter#0");
+            sb.append("Spring默认RequestMappingHandlerAdapter:" + adapter + "\n");
+            if (adapter != null) {
+                List<HttpMessageConverter<?>> coverters = adapter
+                        .getMessageConverters();
+                sb.append("MessageConverters:\n");
+                for (HttpMessageConverter converter : coverters) {
+                    sb.append(converter.getClass().getName() + "=" + converter + "\n");
+                }
             }
+        } catch (Exception ex) {
+            // ex.printStackTrace();
         }
         return sb.toString();
     }
@@ -96,9 +102,16 @@ public class SpringWebInfo implements ApplicationContextAware {
         return null;
     }
 
+    @RequestMapping(value = "requestMappingHandlerMapping")
+    public Map requestMappingHandlerMapping(HttpServletRequest request) {
+        WebApplicationContext context = RequestContextUtils.findWebApplicationContext(request);
+        Map<String, HandlerMapping> beans = context.getBeansOfType(HandlerMapping.class);
+        return beans.entrySet().stream().collect(Collectors.toMap(t -> t.getKey(), t -> t.getValue().toString()));
+    }
+
     @RequestMapping(value = "debugBean")
     public String debugBean(String beanName) {
-        Object bean =  applicationContext.getBean(beanName);
+        Object bean = applicationContext.getBean(beanName);
         System.out.println(bean);
         return "ok";
     }

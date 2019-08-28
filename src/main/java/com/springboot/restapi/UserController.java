@@ -1,6 +1,7 @@
 package com.springboot.restapi;
 
 
+import com.springboot.aop.MyAopAnnotation;
 import com.springboot.model.User;
 import com.springboot.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class UserController {
     @Autowired
     UserServiceImpl userService;
 
+    @MyAopAnnotation(value = "user/get")
     @Cacheable(value = "user")
     @RequestMapping(value = "/{userId}", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public User get(@PathVariable(value = "userId") Integer userId) {
@@ -33,6 +35,7 @@ public class UserController {
         return userService.get(userId);
     }
 
+    @MyAopAnnotation(value = "user/xml")
     @RequestMapping(value = "/xml/{userId}", produces = {MediaType.APPLICATION_XML_VALUE})
     User geXML(@PathVariable("userId") Integer userId) {
         System.out.println("xml");

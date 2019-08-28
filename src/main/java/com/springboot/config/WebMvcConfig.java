@@ -66,20 +66,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     }
 
-    /**
-     * 配置Filter
-     *
-     * @return
-     */
-    @Bean
-    public FilterRegistrationBean<RequestResponseLoggingFilter> loggingFilter() {
-        FilterRegistrationBean<RequestResponseLoggingFilter> registrationBean
-                = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new RequestResponseLoggingFilter());
-        registrationBean.addUrlPatterns("/user/*");
 
-        return registrationBean;
-    }
 
     /**
      * 跨域配置   @CrossOrigin

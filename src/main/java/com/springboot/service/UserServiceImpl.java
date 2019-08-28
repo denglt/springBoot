@@ -59,7 +59,7 @@ public class UserServiceImpl {
         for (int i = 2; i < 10; i++) {
             User user = new User();
             user.setId(i);
-            user.setName("name_" + i);
+            user.setName("邓_" + i);
             users.add(user);
         }
 

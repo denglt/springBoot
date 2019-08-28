@@ -1,5 +1,7 @@
 package com.springboot.config;
 
+import com.springboot.aop.MyAopBeanPostProcessor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -12,4 +14,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AopConfig {
+
+
+    @Bean
+    public MyAopBeanPostProcessor myAopBeanPostProcessor(){
+        return new MyAopBeanPostProcessor();
+    }
 }
