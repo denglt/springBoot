@@ -27,7 +27,7 @@ public class UserController {
     @Autowired
     UserServiceImpl userService;
 
-    @MyAopAnnotation(value = "user/get")
+    @MyAopAnnotation(value = "u/ser/get")
     @Cacheable(value = "user")
     @RequestMapping(value = "/{userId}", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public User get(@PathVariable(value = "userId") Integer userId) {
@@ -35,7 +35,7 @@ public class UserController {
         return userService.get(userId);
     }
 
-    @MyAopAnnotation(value = "user/xml")
+    @MyAopAnnotation(value = "/user/xml")
     @RequestMapping(value = "/xml/{userId}", produces = {MediaType.APPLICATION_XML_VALUE})
     User geXML(@PathVariable("userId") Integer userId) {
         System.out.println("xml");
@@ -47,30 +47,30 @@ public class UserController {
         return "Hello Spring Boot";
     }
 
-    @RequestMapping(value = "author", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/author", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     User author() {
         return author;
     }
 
-    @RequestMapping(value = "author2", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/author2", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     User author2() {
         return author2;
     }
 
 
-    @RequestMapping(value = "error", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/error", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     User error() throws Exception {
         throw new Exception("error by UserController!");
     }
 
-    @RequestMapping(value = "authorEntity", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/authorEntity", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ResponseEntity<User> authorEntity() {
         int status = 200;
         return new ResponseEntity<>(author, HttpStatus.valueOf(status));
     }
 
 
-    @RequestMapping(value = "fluxUser", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/fluxUser", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Flux<User> fluxUser() {   // 【改】返回类型为Mono<String>
         return Flux.just(author, author2);
     }

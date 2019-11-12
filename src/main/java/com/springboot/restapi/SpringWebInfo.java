@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "springweb")
+@RequestMapping(value = "/springweb")
 public class SpringWebInfo implements ApplicationContextAware {
 
     public SpringWebInfo(List<Object> objects) {
@@ -29,7 +29,7 @@ public class SpringWebInfo implements ApplicationContextAware {
         objects.stream().filter(o -> o instanceof SpringWebInfo).forEach(System.out::println);
     }
 
-    @RequestMapping(value = "appContext")
+    @RequestMapping(value = "/appContext")
     public String infoApplicationContext(HttpServletRequest request) {
         StringBuffer sb = new StringBuffer();
         WebApplicationContext context = RequestContextUtils.findWebApplicationContext(request);
@@ -44,7 +44,7 @@ public class SpringWebInfo implements ApplicationContextAware {
         return sb.toString();
     }
 
-    @RequestMapping(value = "beans", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/beans", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Map<String, String>> infoBeanName(HttpServletRequest request) {
         List<Map<String, String>> beans = new ArrayList<>();
         WebApplicationContext context = RequestContextUtils.findWebApplicationContext(request);
@@ -57,7 +57,7 @@ public class SpringWebInfo implements ApplicationContextAware {
         return beans;
     }
 
-    @RequestMapping(value = "requestMappingHandlerAdapter")
+    @RequestMapping(value = "/requestMappingHandlerAdapter")
     public String requestMappingHandlerAdapter(HttpServletRequest request) {
         StringBuffer sb = new StringBuffer();
         WebApplicationContext context = RequestContextUtils.findWebApplicationContext(request);
@@ -91,7 +91,7 @@ public class SpringWebInfo implements ApplicationContextAware {
         return sb.toString();
     }
 
-    @RequestMapping(value = "dispatcherServlet")
+    @RequestMapping(value = "/dispatcherServlet")
     public String dispatcherServlet(HttpServletRequest request) {
 
         ServletContext sc = request.getServletContext();
@@ -102,14 +102,14 @@ public class SpringWebInfo implements ApplicationContextAware {
         return null;
     }
 
-    @RequestMapping(value = "requestMappingHandlerMapping")
+    @RequestMapping(value = "/requestMappingHandlerMapping")
     public Map requestMappingHandlerMapping(HttpServletRequest request) {
         WebApplicationContext context = RequestContextUtils.findWebApplicationContext(request);
         Map<String, HandlerMapping> beans = context.getBeansOfType(HandlerMapping.class);
         return beans.entrySet().stream().collect(Collectors.toMap(t -> t.getKey(), t -> t.getValue().toString()));
     }
 
-    @RequestMapping(value = "debugBean")
+    @RequestMapping(value = "/debugBean")
     public String debugBean(String beanName) {
         Object bean = applicationContext.getBean(beanName);
         System.out.println(bean);

@@ -38,7 +38,6 @@ public class WebServerConfig implements WebServerFactoryCustomizer<ConfigurableS
                     AbstractProtocol protocol = (AbstractProtocol) protocolHandler;
                     protocol.setKeepAliveTimeout(10000);
                    // protocol.setSoTimeout();
-
                 }
             });
         }

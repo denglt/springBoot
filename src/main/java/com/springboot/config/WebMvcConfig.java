@@ -16,6 +16,9 @@ import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.XmlViewResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,9 +41,11 @@ import java.util.List;
  * Spring boot  @see WebMvcAutoConfiguration (WebMvcAutoConfigurationAdapter ,EnableWebMvcConfiguration )  HttpMessageConvertersAutoConfiguration
  *
  */
+
 @Configuration
+//@EnableWebMvc
 //@ServletComponentScan(basePackages = "com.springboot")  // scan @WebServlet, @WebFilter, @WebListener (servlet 3.0)
-public class WebMvcConfig implements WebMvcConfigurer {
+public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     private static Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
 
@@ -118,14 +123,43 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
 
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         //registry.add
+        registry.addViewController("/websocket1").setViewName("websocket");
+    }
+
+    /**
+     *  如果不自己搞一个，默认就是WebMvcAutoConfiguration中的
+     *
+     *  注意：目前的测试，在idea用Run Dashoard 运行，会找不到jsp文件，但打为war包后可以找到jsp
+     * @return
+     */
+    @Bean
+    InternalResourceViewResolver defaultViewResolver(){
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/WEB-INF/jsp/");
+        resolver.setSuffix(".jsp");
+        resolver.setViewClass(JstlView.class);
+        return  resolver;
+    }
+    /**
+     * 注意：开发传统Java WEB工程时，我们可以使用JSP页面模板语言,但是在SpringBoot中已经不推荐使用了。
+     * Thymeleaf是SpringBoot官方所推荐使用的
+     * @param registry
+     */
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        registry.viewResolver(defaultViewResolver());
+     //   XmlViewResolver xmlViewResolver = new XmlViewResolver();  // 导出 Excel
+     //   registry.viewResolver(xmlViewResolver);
+
     }
 
     @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        super.addResourceHandlers(registry);
     }
 
     class UserLogHandlerInterceptor implements HandlerInterceptor {

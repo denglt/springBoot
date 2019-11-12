@@ -27,7 +27,7 @@ public class AsyncController {
      * 只要进入，client会一直等待，除非client有设置timeout
      * @return
      */
-    @RequestMapping("longSync")
+    @RequestMapping("/longSync")
     @ResponseBody
     public User longSync() {
         logger.info("Entering controller");
@@ -47,7 +47,7 @@ public class AsyncController {
      * @return
      */
 
-    @RequestMapping(value = "shortCallable", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/shortCallable", produces = "application/json;charset=UTF-8")
     public Callable<User> shortCallable() {
         logger.info("Entering controller");
         Callable<User> asyncTask = new UserTimeCaller(10000);
@@ -60,7 +60,7 @@ public class AsyncController {
      *  org.springframework.web.context.request.async.AsyncRequestTimeoutException: null
      * @return
      */
-    @RequestMapping("longCallable")
+    @RequestMapping("/longCallable")
     public Callable<User> longCallable() {
         logger.info("Entering controller");
         Callable<User> asyncTask = new UserTimeCaller(60000); //
@@ -73,7 +73,7 @@ public class AsyncController {
      * 需要手动 DeferredResult.setResult() 设置结果
      * @return
      */
-    @RequestMapping(value = "shortDeferred", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/shortDeferred", produces = "application/json;charset=UTF-8")
     public DeferredResult<User> shortDeferredResult() {
         logger.info("Deferred time request -> Entering controller");
         DeferredResult<User> result = new DeferredResult<>();
@@ -84,7 +84,7 @@ public class AsyncController {
         return result;
     }
 
-    @RequestMapping(value = "longDeferred", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/longDeferred", produces = "application/json;charset=UTF-8")
     public DeferredResult<User> longDeferredResult() {
         logger.info("Deferred time request -> Entering controller");
         DeferredResult<User> result = new DeferredResult<>(20000l, new User("time out"));
@@ -103,7 +103,7 @@ public class AsyncController {
      *
      * @return
      */
-    @RequestMapping(value = "shortWebAsync", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/shortWebAsync", produces = "application/json;charset=UTF-8")
     public WebAsyncTask<User> shortWebAsyncTask() {
         logger.info("Entering controller");
         Callable<User> asyncTask = new UserTimeCaller(10000);
@@ -116,7 +116,7 @@ public class AsyncController {
      *
      * @return
      */
-    @RequestMapping(value = "longWebAsync", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/longWebAsync", produces = "application/json;charset=UTF-8")
     public WebAsyncTask<User> longWebAsyncTask() {
         logger.info("Entering controller");
         Callable<User> asyncTask = new UserTimeCaller(60000);
