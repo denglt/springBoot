@@ -35,10 +35,10 @@
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
                 -->
-<!--                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>-->
+                <!--                <exclusion>
+                                    <groupId>org.springframework.boot</groupId>
+                                    <artifactId>spring-boot-starter-logging</artifactId>
+                                </exclusion>-->
             </exclusions>
         </dependency>
 
@@ -148,11 +148,15 @@
             <scope>test</scope>
         </dependency>
 
+        <!--
+        spring-boot-starter-logging 和 spring-boot-starter-log4j2 区之一
+        否则：SpringBoot使用log4j2启动java.lang.StackOverflowError的原因
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
-
+       -->
     </dependencies>
 
     <build>

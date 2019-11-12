@@ -133,7 +133,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     /**
      *  如果不自己搞一个，默认就是WebMvcAutoConfiguration中的
      *
-     *  注意：目前的测试，在idea用Run Dashoard 运行，会找不到jsp文件，但打为war包后可以找到jsp
+     *  注意：目前的测试，在idea用Run Dashoard 运行，会找不到jsp文件，但打为war包或 mvn spring-boot:run 可以找到jsp
+     *  找到解决方法，在Edit Configuration | Configuration Tab | Working Directory 为 $MODULE_WORKING_DIR$
      * @return
      */
     @Bean

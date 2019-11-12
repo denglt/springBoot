@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebServerConfig implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
 
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+    Logger logger = LoggerFactory.getLogger(WebServerConfig.class);
 
 
     /**
@@ -30,6 +30,10 @@ public class WebServerConfig implements WebServerFactoryCustomizer<ConfigurableS
        // server.setPort(9000);
         if (server instanceof TomcatServletWebServerFactory){
             TomcatServletWebServerFactory tomcatServletWebServerFactory =(TomcatServletWebServerFactory) server;
+            logger.info("DocumentRoot -> {} " ,tomcatServletWebServerFactory.getDocumentRoot());
+
+            //tomcatServletWebServerFactory.setDocumentRoot();
+            //tomcatServletWebServerFactory.setBaseDirectory();
             tomcatServletWebServerFactory.addConnectorCustomizers( connector -> {
               // connector.setAsyncTimeout();
               //  connector.setPort();
