@@ -34,7 +34,7 @@ acme:
 logging:
   file: /tmp/log/${spring.application.name}/springBootDemo.log
   level:
-    root: info
+    root: debug
 
 spring:
   http:

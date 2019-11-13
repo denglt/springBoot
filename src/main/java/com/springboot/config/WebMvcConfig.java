@@ -16,6 +16,7 @@ import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.view.InternalResourceView;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.XmlViewResolver;
@@ -37,9 +38,8 @@ import java.util.List;
 
 /**
  * WebMvc的配置  （spring @EnableWebMvc -> WebMvcConfigurationSupport -> RequestMappingHandlerMapping ）
- *
+ * <p>
  * Spring boot  @see WebMvcAutoConfiguration (WebMvcAutoConfigurationAdapter ,EnableWebMvcConfiguration )  HttpMessageConvertersAutoConfiguration
- *
  */
 
 @Configuration
@@ -64,13 +64,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         HttpMessageConverter sourceHttpMessageConverter = new SourceHttpMessageConverter();
         List<HttpMessageConverter<?>> converterList = new ArrayList<>();
         converterList.add(jsonHttpMessageConverter);
-       // converterList.add(jaxb2RootElementHttpMessageConverter);
+        // converterList.add(jaxb2RootElementHttpMessageConverter);
         converterList.add(sourceHttpMessageConverter);
-       // return new HttpMessageConverters(false, converterList);
-         return new HttpMessageConverters(true, Collections.singletonList(jsonHttpMessageConverter) );
+        // return new HttpMessageConverters(false, converterList);
+        return new HttpMessageConverters(true, Collections.singletonList(jsonHttpMessageConverter));
 
     }
-
 
 
     /**
@@ -123,44 +122,67 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     }
 
 
-
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         //registry.add
-        registry.addViewController("/websocket1").setViewName("websocket");
+        registry.addViewController("/websocket").setViewName("html/websocket");
     }
 
     /**
-     *  如果不自己搞一个，默认就是WebMvcAutoConfiguration中的
+     * 如果不自己搞一个，默认就是WebMvcAutoConfiguration中的
+     * <p>
+     * 注意：目前的测试，在idea用Run Dashoard 运行，会找不到jsp文件，但打为war包或 mvn spring-boot:run 可以找到jsp
+     * 找到解决方法，在Edit Configuration | Configuration Tab | Working Directory 为 $MODULE_WORKING_DIR$
      *
-     *  注意：目前的测试，在idea用Run Dashoard 运行，会找不到jsp文件，但打为war包或 mvn spring-boot:run 可以找到jsp
-     *  找到解决方法，在Edit Configuration | Configuration Tab | Working Directory 为 $MODULE_WORKING_DIR$
      * @return
      */
     @Bean
-    InternalResourceViewResolver defaultViewResolver(){
+    InternalResourceViewResolver defaultViewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/jsp/");
+        resolver.setPrefix("/WEB-INF/");
         resolver.setSuffix(".jsp");
-        resolver.setViewClass(JstlView.class);
-        return  resolver;
+        resolver.setViewNames("jsp/*");
+        return resolver;
     }
+
     /**
      * 注意：开发传统Java WEB工程时，我们可以使用JSP页面模板语言,但是在SpringBoot中已经不推荐使用了。
      * Thymeleaf是SpringBoot官方所推荐使用的
+     *
      * @param registry
      */
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         registry.viewResolver(defaultViewResolver());
-     //   XmlViewResolver xmlViewResolver = new XmlViewResolver();  // 导出 Excel
-     //   registry.viewResolver(xmlViewResolver);
+
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/WEB-INF/");
+        resolver.setSuffix(".html");
+        resolver.setViewNames("html/*");
+        resolver.setContentType("text/html;charset=UTF-8");
+        registry.viewResolver(resolver); // 这儿需要下面的 addResourceHandlers 增加静态资源处理
+
+        //   XmlViewResolver xmlViewResolver = new XmlViewResolver();  // 导出 Excel
+        //   registry.viewResolver(xmlViewResolver);
 
     }
 
+
+    @Override
+    public void configureDefaultServletHandling(
+            DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
+
+    /**
+     * 静态资源处理
+     *
+     * @param registry
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         super.addResourceHandlers(registry);
+        registry.addResourceHandler("/WEB-INF/**").addResourceLocations("classpath:/WEB-INF/");
     }
 
     class UserLogHandlerInterceptor implements HandlerInterceptor {
@@ -208,21 +230,20 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     }
 }
 /**
- 一个Async Request 的日志：
- 2018-11-08 15:06:47.006  INFO 6489 --- [nio-9000-exec-9] c.s.restapi.filter.TransactionFilter     : Starting a transaction for req : /springboot/async/shortCallable
- 2018-11-08 15:06:47.008  INFO 6489 --- [nio-9000-exec-9] com.springboot.config.WebMvcConfig       : AsyncLogHandlerInterceptor -> preHandle  // 执行了两次
- 2018-11-08 15:06:47.008  INFO 6489 --- [nio-9000-exec-9] com.springboot.restapi.AsyncController   : Entering controller
- 2018-11-08 15:06:47.008  INFO 6489 --- [nio-9000-exec-9] com.springboot.restapi.AsyncController   : Leaving  controller
- 2018-11-08 15:06:47.009  INFO 6489 --- [nio-9000-exec-9] com.springboot.config.WebMvcConfig       : AsyncLogHandlerInterceptor -> afterConcurrentHandlingStarted
- 2018-11-08 15:06:47.009  INFO 6489 --- [      MvcAsync3] com.springboot.restapi.AsyncController   : begin call() ...
- 2018-11-08 15:06:47.009  INFO 6489 --- [nio-9000-exec-9] c.springboot.event.LogApplicationEvent   : ApplicationEvent -> ServletRequestHandledEvent: url=[/springboot/async/shortCallable]; client=[127.0.0.1]; method=[GET]; servlet=[dispatcherServlet]; session=[A9C9C2D2207BD18E3950A1D83B56D5CC]; user=[admin]; time=[2ms]; status=[OK]
- 2018-11-08 15:06:47.009  INFO 6489 --- [nio-9000-exec-9] c.s.restapi.filter.TransactionFilter     : Committing a transaction for req : /springboot/async/shortCallable
- 2018-11-08 15:06:57.011  INFO 6489 --- [      MvcAsync3] com.springboot.restapi.AsyncController   : end call() !
- 2018-11-08 15:06:57.015  INFO 6489 --- [io-9000-exec-10] com.springboot.config.WebMvcConfig       : AsyncLogHandlerInterceptor -> preHandle   // 执行了两次
- 2018-11-08 15:06:57.016  INFO 6489 --- [io-9000-exec-10] com.springboot.config.WebMvcConfig       : AsyncLogHandlerInterceptor -> postHandle
- 2018-11-08 15:06:57.016  INFO 6489 --- [io-9000-exec-10] com.springboot.config.WebMvcConfig       : AsyncLogHandlerInterceptor -> afterCompletion
- 2018-11-08 15:06:57.016  INFO 6489 --- [io-9000-exec-10] c.springboot.event.LogApplicationEvent   : ApplicationEvent -> ServletRequestHandledEvent: url=[/springboot/async/shortCallable]; client=[127.0.0.1]; method=[GET]; servlet=[dispatcherServlet]; session=[A9C9C2D2207BD18E3950A1D83B56D5CC]; user=[admin]; time=[2ms]; status=[OK]
-
+ * 一个Async Request 的日志：
+ * 2018-11-08 15:06:47.006  INFO 6489 --- [nio-9000-exec-9] c.s.restapi.filter.TransactionFilter     : Starting a transaction for req : /springboot/async/shortCallable
+ * 2018-11-08 15:06:47.008  INFO 6489 --- [nio-9000-exec-9] com.springboot.config.WebMvcConfig       : AsyncLogHandlerInterceptor -> preHandle  // 执行了两次
+ * 2018-11-08 15:06:47.008  INFO 6489 --- [nio-9000-exec-9] com.springboot.restapi.AsyncController   : Entering controller
+ * 2018-11-08 15:06:47.008  INFO 6489 --- [nio-9000-exec-9] com.springboot.restapi.AsyncController   : Leaving  controller
+ * 2018-11-08 15:06:47.009  INFO 6489 --- [nio-9000-exec-9] com.springboot.config.WebMvcConfig       : AsyncLogHandlerInterceptor -> afterConcurrentHandlingStarted
+ * 2018-11-08 15:06:47.009  INFO 6489 --- [      MvcAsync3] com.springboot.restapi.AsyncController   : begin call() ...
+ * 2018-11-08 15:06:47.009  INFO 6489 --- [nio-9000-exec-9] c.springboot.event.LogApplicationEvent   : ApplicationEvent -> ServletRequestHandledEvent: url=[/springboot/async/shortCallable]; client=[127.0.0.1]; method=[GET]; servlet=[dispatcherServlet]; session=[A9C9C2D2207BD18E3950A1D83B56D5CC]; user=[admin]; time=[2ms]; status=[OK]
+ * 2018-11-08 15:06:47.009  INFO 6489 --- [nio-9000-exec-9] c.s.restapi.filter.TransactionFilter     : Committing a transaction for req : /springboot/async/shortCallable
+ * 2018-11-08 15:06:57.011  INFO 6489 --- [      MvcAsync3] com.springboot.restapi.AsyncController   : end call() !
+ * 2018-11-08 15:06:57.015  INFO 6489 --- [io-9000-exec-10] com.springboot.config.WebMvcConfig       : AsyncLogHandlerInterceptor -> preHandle   // 执行了两次
+ * 2018-11-08 15:06:57.016  INFO 6489 --- [io-9000-exec-10] com.springboot.config.WebMvcConfig       : AsyncLogHandlerInterceptor -> postHandle
+ * 2018-11-08 15:06:57.016  INFO 6489 --- [io-9000-exec-10] com.springboot.config.WebMvcConfig       : AsyncLogHandlerInterceptor -> afterCompletion
+ * 2018-11-08 15:06:57.016  INFO 6489 --- [io-9000-exec-10] c.springboot.event.LogApplicationEvent   : ApplicationEvent -> ServletRequestHandledEvent: url=[/springboot/async/shortCallable]; client=[127.0.0.1]; method=[GET]; servlet=[dispatcherServlet]; session=[A9C9C2D2207BD18E3950A1D83B56D5CC]; user=[admin]; time=[2ms]; status=[OK]
  */
 
 

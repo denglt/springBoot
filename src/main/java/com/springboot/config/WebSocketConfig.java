@@ -1,6 +1,6 @@
 package com.springboot.config;
 
-import com.springboot.websocket.MyHandler;
+import com.springboot.websocket.MyTextWebSocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -52,7 +52,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Bean
     public WebSocketHandler myHandler() {
         System.out.println("我只执行一次");
-        return new MyHandler();
+        return new MyTextWebSocketHandler();
     }
 }
 

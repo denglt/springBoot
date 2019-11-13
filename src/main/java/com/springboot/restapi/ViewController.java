@@ -15,10 +15,17 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ViewController {
 
-    @RequestMapping("/websocket")
-    ModelAndView websocket(){
+    @RequestMapping("/jspwebsocket")
+    ModelAndView jspWebsocket(){
         ModelAndView view = new ModelAndView();
-        view.setViewName("websocket");
+        view.setViewName("jsp/websocket");
+        return view;
+    }
+
+    @RequestMapping("/htmlwebsocket")
+    ModelAndView htmlWebsocket(){
+        ModelAndView view = new ModelAndView();
+        view.setViewName("html/websocket");
         return view;
     }
 }

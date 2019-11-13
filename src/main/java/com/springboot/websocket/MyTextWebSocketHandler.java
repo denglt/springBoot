@@ -14,10 +14,10 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
  * @Date: 2019-11-08 14:33
  * @Copyright: 版权归 HSYUNTAI 所有
  */
-public class MyHandler extends TextWebSocketHandler {
+public class MyTextWebSocketHandler extends TextWebSocketHandler {
 
 
-    private static final Logger logger = LoggerFactory.getLogger(MyHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(MyTextWebSocketHandler.class);
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
