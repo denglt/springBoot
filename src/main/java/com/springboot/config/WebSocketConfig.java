@@ -34,7 +34,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
-        webSocketHandlerRegistry.addHandler(myHandler(), "/myHandler")
+        webSocketHandlerRegistry.addHandler(myHandler(), "/myWebSocketHandler")
                 .addInterceptors(new MyHandshakeInterceptor())
                 .setHandshakeHandler(new MyHandshakeHandler())
                 .setAllowedOrigins()
