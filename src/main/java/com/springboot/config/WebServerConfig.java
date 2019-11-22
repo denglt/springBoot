@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Web服务器的配置
+ *
  * @see ServerProperties  ServletWebServerFactoryAutoConfiguration
  */
 @Configuration
@@ -20,28 +21,29 @@ public class WebServerConfig implements WebServerFactoryCustomizer<ConfigurableS
 
 
     /**
-     *  Customize the specified WebServerFactory
+     * Customize the specified WebServerFactory
+     *
      * @param server
      */
 
     @Override
     public void customize(ConfigurableServletWebServerFactory server) {
-        System.out.println("WebServerFactory -> " + server);
-       // server.setPort(9000);
-        if (server instanceof TomcatServletWebServerFactory){
-            TomcatServletWebServerFactory tomcatServletWebServerFactory =(TomcatServletWebServerFactory) server;
-            logger.info("DocumentRoot -> {} " ,tomcatServletWebServerFactory.getDocumentRoot());
+        logger.info("WebServerFactory -> {}", server);
+        // server.setPort(9000);
+        if (server instanceof TomcatServletWebServerFactory) {
+            TomcatServletWebServerFactory tomcatServletWebServerFactory = (TomcatServletWebServerFactory) server;
+            logger.info("DocumentRoot -> {} ", tomcatServletWebServerFactory.getDocumentRoot());
 
             //tomcatServletWebServerFactory.setDocumentRoot();
             //tomcatServletWebServerFactory.setBaseDirectory();
-            tomcatServletWebServerFactory.addConnectorCustomizers( connector -> {
-              // connector.setAsyncTimeout();
-              //  connector.setPort();
+            tomcatServletWebServerFactory.addConnectorCustomizers(connector -> {
+                // connector.setAsyncTimeout();
+                //  connector.setPort();
                 ProtocolHandler protocolHandler = connector.getProtocolHandler();
-                if (protocolHandler instanceof AbstractProtocol){
+                if (protocolHandler instanceof AbstractProtocol) {
                     AbstractProtocol protocol = (AbstractProtocol) protocolHandler;
                     protocol.setKeepAliveTimeout(10000);
-                   // protocol.setSoTimeout();
+                    // protocol.setSoTimeout();
                 }
             });
         }

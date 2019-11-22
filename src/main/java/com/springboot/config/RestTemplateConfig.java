@@ -2,7 +2,6 @@ package com.springboot.config;
 
 import org.apache.http.HeaderElement;
 import org.apache.http.HeaderElementIterator;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -16,7 +15,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeaderElementIterator;
 import org.apache.http.protocol.HTTP;
-import org.apache.http.protocol.HttpContext;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,7 +117,8 @@ public class RestTemplateConfig {
         };
     }
 
-    private PoolingHttpClientConnectionManager poolingConnectionManager() {
+    @Bean
+    public PoolingHttpClientConnectionManager poolingConnectionManager() {
         SSLContextBuilder builder = new SSLContextBuilder();
         try {
             builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());

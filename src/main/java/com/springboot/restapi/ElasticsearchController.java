@@ -9,6 +9,7 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +29,7 @@ import javax.validation.constraints.Size;
  */
 
 @Validated
-@RestController
+// @RestController
 public class ElasticsearchController {
 
     @Resource

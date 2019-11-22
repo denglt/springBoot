@@ -183,6 +183,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         super.addResourceHandlers(registry);
         registry.addResourceHandler("/WEB-INF/**").addResourceLocations("classpath:/WEB-INF/");
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/WEB-INF/","classpath:/static/");
+
+        /**
+         默认 WebMvcProperties.staticPathPattern = "/**"，映射到 ResourceProperties.staticLocations = CLASSPATH_RESOURCE_LOCATIONS
+                 private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
+                 "classpath:/META-INF/resources/", "classpath:/resources/",
+                 "classpath:/static/", "classpath:/public/" };
+         */
     }
 
     class UserLogHandlerInterceptor implements HandlerInterceptor {

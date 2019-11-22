@@ -13,7 +13,10 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.HandshakeFailureException;
 import org.springframework.web.socket.server.HandshakeHandler;
+import org.springframework.web.socket.server.HandshakeInterceptor;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
+import org.springframework.web.socket.server.support.AbstractHandshakeHandler;
+import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 import java.util.Map;
@@ -28,17 +31,17 @@ import java.util.Map;
 
 @Configuration
 @EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer {
+public class WebSocketConfig implements WebSocketConfigurer { // 以后可以搞个STOMP的实现
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketConfig.class);
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
         webSocketHandlerRegistry.addHandler(myHandler(), "/myWebSocketHandler")
-                .addInterceptors(new MyHandshakeInterceptor())
-                .setHandshakeHandler(new MyHandshakeHandler())
-                .setAllowedOrigins()
-                .withSockJS();
+                .addInterceptors(new MyHandshakeInterceptor(), new HttpSessionHandshakeInterceptor())
+                .setHandshakeHandler(new DefaultHandshakeHandler()) // new MyHandshakeHandler
+                .setAllowedOrigins("*"); // 跨域
+        //.withSockJS();
     }
 
     @Bean
@@ -56,28 +59,21 @@ public class WebSocketConfig implements WebSocketConfigurer {
     }
 }
 
-class MyHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
+class MyHandshakeInterceptor implements HandshakeInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(MyHandshakeInterceptor.class);
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         logger.info("Before Handshake");
-        return super.beforeHandshake(request, response, wsHandler, attributes);
+        return true;
     }
 
     @Override
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception ex) {
         logger.info("After Handshake");
-        super.afterHandshake(request, response, wsHandler, ex);
     }
 }
 
-class MyHandshakeHandler implements HandshakeHandler {
-    private static final Logger logger = LoggerFactory.getLogger(MyHandshakeHandler.class);
+class MyHandshakeHandler extends AbstractHandshakeHandler {
 
-    @Override
-    public boolean doHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws HandshakeFailureException {
-        logger.info("Do Handshake");
-        return true;
-    }
 }
