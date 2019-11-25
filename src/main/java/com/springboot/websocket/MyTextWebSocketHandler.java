@@ -18,6 +18,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
  */
 public class MyTextWebSocketHandler extends TextWebSocketHandler {
 
+    private static final String beart = "HeartBeat";
 
     private static final Logger logger = LoggerFactory.getLogger(MyTextWebSocketHandler.class);
 
@@ -33,8 +34,13 @@ public class MyTextWebSocketHandler extends TextWebSocketHandler {
         logger.info("receive {} from {} ", message.getPayload(), session.getRemoteAddress());
         // session.getAttributes(); 在HandshakeInterceptor.beforeHandshake 中设置， @see HttpSessionHandshakeInterceptor
         String payload = message.getPayload();
-        JSONObject jsonObject = JSON.parseObject(payload);
-        session.sendMessage(new TextMessage("Hi " + jsonObject.get("user") + " how may we help you?"));
+        if (!beart.equals(payload)) {
+            JSONObject jsonObject = JSON.parseObject(payload);
+            session.sendMessage(new TextMessage("Hi " + jsonObject.get("user") + " how may we help you?"));
+        } else {
+            //System.out.println("收到心跳");
+            session.sendMessage(new TextMessage(beart));
+        }
     }
 
     @Override
