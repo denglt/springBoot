@@ -10,7 +10,7 @@ public class User implements Serializable {
     private Integer sex;
     private String passwword;
     private String role;
-
+    private String headPhoto;
     public User(){
 
     }
@@ -66,5 +66,13 @@ public class User implements Serializable {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getHeadPhoto() {
+        return headPhoto;
+    }
+
+    public void setHeadPhoto(String headPhoto) {
+        this.headPhoto = headPhoto;
     }
 }

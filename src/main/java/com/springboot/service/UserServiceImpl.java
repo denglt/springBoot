@@ -1,6 +1,8 @@
 package com.springboot.service;
 
 import com.springboot.model.User;
+import com.springboot.orm.user.User2Dao;
+import com.springboot.orm.user.UserDao;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,13 @@ public class UserServiceImpl {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private User2Dao user2Dao;
 
  /*   @Autowired
     private StringRedisTemplate stringRedisTemplate;*/
@@ -105,4 +114,11 @@ public class UserServiceImpl {
     }
 
 
+    public User getFromDb(Long id){
+        return user2Dao.selectByPrimaryKey(id);
+    }
+
+    public List<User> getAllFromDb(){
+        return userDao.getAll();
+    }
 }

@@ -74,4 +74,19 @@ public class UserController {
     public Flux<User> fluxUser() {   // 【改】返回类型为Mono<String>
         return Flux.just(author, author2);
     }
+
+
+    @RequestMapping(value = "/db/{userId}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    User geFromDB(@PathVariable("userId") Long userId) {
+        System.out.println("from db");
+        return userService.getFromDb(userId);
+    }
+
+    @RequestMapping(value = "/alldb", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    List<User> geFromDB() {
+        System.out.println("get all from db");
+        return userService.getAllFromDb();
+    }
 }
+
+

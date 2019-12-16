@@ -13,11 +13,11 @@ application.name: myDemo
 
 # 复杂对象 必须使用 ConfigurationProperties
 city:
-    - 北京
-    - 上海
-    - 深圳
-    - 南京
-    - 重庆
+  - 北京
+  - 上海
+  - 深圳
+  - 南京
+  - 重庆
 
 acme:
   list:
@@ -53,11 +53,11 @@ spring:
       properties:
         enable-logging: true
   datasource:
-    url: jdbc:mysql://112.124.33.7/med2
-    jdbc-url: jdbc:mysql://112.124.33.7/med2
+    url: jdbc:mysql://localhost/med2
+    jdbc-url: jdbc:mysql://localhost/med2
     driver-class-name: "com.mysql.jdbc.Driver"
-    username: med
-    password: medicalcore01
+    username: root
+    password: denglt
     type: com.zaxxer.hikari.HikariDataSource
     maximum-pool-size: 30
   jdbc:
@@ -65,10 +65,10 @@ spring:
       max-rows: -1
   data:
     elasticsearch:
-       #cluster-nodes: 127.0.0.1:9300
-       #properties: { es.set.netty.runtime.available.processors: false }
+    #cluster-nodes: 127.0.0.1:9300
+    #properties: { es.set.netty.runtime.available.processors: false }
 
- #CacheProperties
+  #CacheProperties
   cache:
     type: simple
     #type: redis
@@ -91,7 +91,6 @@ spring:
     store-type: none
   application:
     name: demo
-
 org:
   springframework:
     boot:
@@ -104,14 +103,14 @@ management:
     web:
       exposure:
         include: "*"
-#             - info
-#             - info
-#             - health
-#             - metrics
-#             - httptrace
-#             - beans
-#             - env
-#             - mappings
+  #             - info
+  #             - info
+  #             - health
+  #             - metrics
+  #             - httptrace
+  #             - beans
+  #             - env
+  #             - mappings
   endpoint:
     health:
       enabled: true
@@ -134,7 +133,14 @@ info:
 
 ######## end Actuator
 
+mybatis:
+  # config-location: classpath:mybatis-Config.xml
+  mapper-locations: classpath:**/*Dao.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
 #yml文件中支持使用三个短横线分割文档块的方式
+
 ---
 spring:
   profiles: dev
