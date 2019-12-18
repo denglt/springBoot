@@ -77,16 +77,24 @@ public class UserController {
 
 
     @RequestMapping(value = "/db/{userId}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    User geFromDB(@PathVariable("userId") Long userId) {
+    User getFromDB(@PathVariable("userId") Long userId) {
         System.out.println("from db");
         return userService.getFromDb(userId);
     }
 
     @RequestMapping(value = "/alldb", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    List<User> geFromDB() {
+    List<User> getFromDB() {
         System.out.println("get all from db");
         return userService.getAllFromDb();
     }
+
+
+    @RequestMapping(value = "/createUser", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    User createUserByRandom() {
+        System.out.println("create user in db");
+        return userService.createUserByRandom();
+    }
+
 }
 
 

@@ -1,6 +1,8 @@
 package com.springboot.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class User implements Serializable {
     private static final long serialVersionUID = 6060813389471923239L;
@@ -11,6 +13,10 @@ public class User implements Serializable {
     private String passwword;
     private String role;
     private String headPhoto;
+    private Date createTime ;
+    private Long createTimestamp;
+    private Timestamp zoneCreateTime;
+
     public User(){
 
     }
@@ -74,5 +80,29 @@ public class User implements Serializable {
 
     public void setHeadPhoto(String headPhoto) {
         this.headPhoto = headPhoto;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Long getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(Long createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    public Timestamp getZoneCreateTime() {
+        return zoneCreateTime;
+    }
+
+    public void setZoneCreateTime(Timestamp zoneCreateTime) {
+        this.zoneCreateTime = zoneCreateTime;
     }
 }

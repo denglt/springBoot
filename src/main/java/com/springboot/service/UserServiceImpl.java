@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -114,11 +116,27 @@ public class UserServiceImpl {
     }
 
 
-    public User getFromDb(Long id){
+    public User getFromDb(Long id) {
         return user2Dao.selectByPrimaryKey(id);
     }
 
-    public List<User> getAllFromDb(){
+    public List<User> getAllFromDb() {
         return userDao.getAll();
     }
+
+
+    @Transactional
+    public User createUserByRandom() {
+        User newUser = new User();
+        newUser.setName("denglt" + System.currentTimeMillis());
+        newUser.setPasswword(null);
+        Date date = new Date();
+        newUser.setCreateTime(date);
+        newUser.setCreateTimestamp(date.getTime());
+        newUser.setZoneCreateTime(new Timestamp(date.getTime()));
+        userDao.insert(newUser);
+       // throw new RuntimeException("就是要报错！");
+        return newUser;
+    }
+
 }

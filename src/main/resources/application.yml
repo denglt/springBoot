@@ -53,6 +53,7 @@ spring:
       properties:
         enable-logging: true
   datasource:
+    auto-commit: false
     url: jdbc:mysql://localhost/med2
     jdbc-url: jdbc:mysql://localhost/med2
     driver-class-name: "com.mysql.jdbc.Driver"
@@ -60,6 +61,9 @@ spring:
     password: denglt
     type: com.zaxxer.hikari.HikariDataSource
     maximum-pool-size: 30
+    hikari:
+      auto-commit: false   #默认 true
+      username:
   jdbc:
     template:
       max-rows: -1
@@ -138,6 +142,8 @@ mybatis:
   mapper-locations: classpath:**/*Dao.xml
   configuration:
     map-underscore-to-camel-case: true
+
+
 
 #yml文件中支持使用三个短横线分割文档块的方式
 
