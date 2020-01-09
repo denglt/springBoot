@@ -186,6 +186,19 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
          */
     }
 
+    /**
+     * 设置异步执行的配置：
+     *    1、超时时间
+     *    2、执行器
+     * @param configurer
+     */
+
+    @Override
+    public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
+      //  configurer.setDefaultTimeout();
+      //   configurer.setTaskExecutor();  WebAsyncManager.taskExecutor
+    }
+
     class UserLogHandlerInterceptor implements HandlerInterceptor {
 
         @Override

@@ -8,6 +8,7 @@ server:
   address:
   connection-timeout: 10s
 
+
 application.name: myDemo
 
 

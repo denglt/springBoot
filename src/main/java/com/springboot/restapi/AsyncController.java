@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.context.request.async.WebAsyncTask;
 
+import javax.annotation.Resource;
 import java.util.concurrent.Callable;
 
 @RestController
@@ -19,7 +20,7 @@ public class AsyncController {
 
     protected static Logger logger = LoggerFactory.getLogger(AsyncController.class);
 
-    @Autowired
+    @Resource
     private AsyncTaskExecutor executor;
 
     /**
