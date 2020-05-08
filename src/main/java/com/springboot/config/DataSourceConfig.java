@@ -22,31 +22,32 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
 
-    @Bean(name = "firstDataSource")
-    @Qualifier("firstDataSource")
+    @Bean(name = "ds1DataSourceProperties")
     @Primary
-    @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSource firstDataSource() {
-        return DataSourceBuilder.create().build();
+    @ConfigurationProperties(prefix = "app.datasource.db1")
+    public DataSourceProperties firstDataSourceProperties() {
+        return new DataSourceProperties();
     }
 
-    @Bean
+    @Bean(name = "firstDataSource")
     @Primary
-    @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSourceProperties dataSourceProperties() {
-        System.out.println("DataSourceProperties dataSourceProperties()");
+    @ConfigurationProperties(prefix = "app.datasource.db1.hikari")
+    public DataSource firstDataSource( DataSourceProperties dataSourceProperties) {
+        DataSource dataSource = dataSourceProperties.initializeDataSourceBuilder().build();
+        return dataSource;
+    }
+
+    @Bean(name = "ds2DataSourceProperties")
+    @ConfigurationProperties(prefix = "app.datasource.db2")
+    public DataSourceProperties secondDataSourceProperties() {
         return new DataSourceProperties();
     }
 
 
-   /*  * 通过DataSourceProperties build datasource
-     * @return
-     */
     @Bean(name = "secondDataSource")
-    @Qualifier("secondDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSource secondDataSource() {
-        return dataSourceProperties().initializeDataSourceBuilder().build();
+    @ConfigurationProperties(prefix = "app.datasource.db2.hikari")
+    public DataSource secondDataSource(@Qualifier("ds2DataSourceProperties") DataSourceProperties dataSourceProperties) {
+        return dataSourceProperties.initializeDataSourceBuilder().build();
     }
 
 

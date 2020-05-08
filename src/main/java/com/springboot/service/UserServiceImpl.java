@@ -49,10 +49,6 @@ public class UserServiceImpl {
     private Counter counter;
 
 
-    public UserServiceImpl() {
-
-    }
-
     @Autowired
     public UserServiceImpl(User author, User author2) {
         System.out.println("UserServiceImpl ->" + author + " ->" + author2);

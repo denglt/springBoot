@@ -37,6 +37,27 @@ logging:
   level:
     root: info
 
+app.datasource:
+  db1:
+    url: jdbc:mysql://localhost/med2?serverTimezone=Asia/Shanghai
+    driver-class-name: "com.mysql.jdbc.Driver"
+    username: root
+    password: denglt
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      auto-commit: false   #默认 true
+      maximum-pool-size: 20  # MaximumPoolSize  maxPoolSize
+      minimum-idle: 5        #  MinimumIdle     minIdle
+
+  db2:
+    url: jdbc:mysql://localhost/med2?serverTimezone=Asia/Shanghai
+    driver-class-name: "com.mysql.jdbc.Driver"
+    username: root
+    password: denglt
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      auto-commit: false   #默认 true
+      maximum-pool-size: 10  # 默认 10
 spring:
   http:
     encoding:
@@ -54,17 +75,14 @@ spring:
       properties:
         enable-logging: true
   datasource:
-    auto-commit: false
     url: jdbc:mysql://localhost/med2
-    jdbc-url: jdbc:mysql://localhost/med2
     driver-class-name: "com.mysql.jdbc.Driver"
     username: root
     password: denglt
     type: com.zaxxer.hikari.HikariDataSource
-    maximum-pool-size: 30
     hikari:
+      maximum-pool-size: 15
       auto-commit: false   #默认 true
-      username:
   jdbc:
     template:
       max-rows: -1

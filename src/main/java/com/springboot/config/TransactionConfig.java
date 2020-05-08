@@ -49,6 +49,7 @@ public class TransactionConfig {
      * @param dataSource
      * @return
      */
+    // 配置默认的 AbstractTransactionManagementConfiguration.PlatformTransactionManager
     @Bean
     public TransactionManagementConfigurer transactionManagementConfigurer(DataSource dataSource) {
         return () -> new DataSourceTransactionManager(dataSource);
