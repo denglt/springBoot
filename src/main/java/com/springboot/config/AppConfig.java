@@ -14,7 +14,7 @@ public class AppConfig {
         User author = new User();
         author.setId(1);
         author.setName("denglt");
-        author.setPasswword("123456");
+        author.setPassword("123456");
         author.setAge(18);
         author.setSex(1);
         author.setRole("user");
@@ -28,7 +28,7 @@ public class AppConfig {
         User author = new User();
         author.setId(2);
         author.setName("zhyy");
-        author.setPasswword("123456");
+        author.setPassword("123456");
         author.setAge(16);
         author.setSex(1);
         author.setRole("user");

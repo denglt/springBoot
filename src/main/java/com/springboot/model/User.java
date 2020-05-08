@@ -10,7 +10,7 @@ public class User implements Serializable {
     private String name;
     private Integer age;
     private Integer sex;
-    private String passwword;
+    private String password;
     private String role;
     private String headPhoto;
     private Date createTime ;
@@ -58,12 +58,12 @@ public class User implements Serializable {
         this.sex = sex;
     }
 
-    public String getPasswword() {
-        return passwword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswword(String passwword) {
-        this.passwword = passwword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRole() {

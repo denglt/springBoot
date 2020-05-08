@@ -72,7 +72,7 @@ public class UserServiceImpl {
 
         User admin = new User();
         admin.setName("admin");
-        admin.setPasswword("admin");
+        admin.setPassword("admin");
         admin.setRole("ADMIN");
         users.add(admin);
     }
@@ -120,18 +120,31 @@ public class UserServiceImpl {
         return userDao.getAll();
     }
 
-
     @Transactional
     public User createUserByRandom() {
         User newUser = new User();
         newUser.setName("denglt" + System.currentTimeMillis());
-        newUser.setPasswword(null);
+        newUser.setPassword(null);
         Date date = new Date();
         newUser.setCreateTime(date);
         newUser.setCreateTimestamp(date.getTime());
         newUser.setZoneCreateTime(new Timestamp(date.getTime()));
         userDao.insert(newUser);
        // throw new RuntimeException("就是要报错！");
+        return newUser;
+    }
+
+    @Transactional(value = "txManager2")
+    public User createUserByRandom2() {
+        User newUser = new User();
+        newUser.setName("denglt" + System.currentTimeMillis());
+        newUser.setPassword(null);
+        Date date = new Date();
+        newUser.setCreateTime(date);
+        newUser.setCreateTimestamp(date.getTime());
+        newUser.setZoneCreateTime(new Timestamp(date.getTime()));
+        userDao.insert(newUser);
+        // throw new RuntimeException("就是要报错！");
         return newUser;
     }
 

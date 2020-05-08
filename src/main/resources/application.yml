@@ -158,9 +158,10 @@ info:
 
 mybatis:
   # config-location: classpath:mybatis-Config.xml
-  mapper-locations: classpath:**/*Dao.xml
+  mapper-locations: classpath:mapper/*Dao.xml
   configuration:
     map-underscore-to-camel-case: true
+
 
 
 
