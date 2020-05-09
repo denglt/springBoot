@@ -90,15 +90,21 @@ public class UserController {
 
 
     @RequestMapping(value = "/createUser", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    User createUserByRandom() {
+    User createUser() {
         System.out.println("create user in db");
         return userService.createUserByRandom();
     }
 
     @RequestMapping(value = "/createUser2", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    User createUserByRandom2() {
-        System.out.println("create user in db with txManager2. (数据库应该查询不到这条记录,因为事务和mybatis使用的datasource不同)");
+    User createUser2() {
+        System.out.println("create user in db");
         return userService.createUserByRandom2();
+    }
+
+    @RequestMapping(value = "/createUser3", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    User createUserInsertDBNoSucc() {
+        System.out.println("create user in db with orm.user.UserDao and txManager2. (数据库应该查询不到这条记录,因为事务和mybatis使用的datasource不同)");
+        return userService.createUserByRandomWithOrmUserDaoInTxManager2();
     }
 
 }

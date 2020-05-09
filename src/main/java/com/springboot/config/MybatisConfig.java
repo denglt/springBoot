@@ -1,10 +1,39 @@
 package com.springboot.config;
 
+import org.apache.ibatis.mapping.DatabaseIdProvider;
+import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.scripting.LanguageDriver;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
+import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
+import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
+
+import javax.sql.DataSource;
+import java.beans.PropertyDescriptor;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 /**
- *     MybatisAutoConfiguration
+ * MybatisAutoConfiguration
+ * @see ClassPathMapperScanner
  * @Description:
  * @Package: com.springboot.config
  * @Author: denglt
@@ -18,5 +47,133 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @MapperScan("com.springboot.orm")  // 扫描Dao
+@MapperScan(value = "com.springboot.orm2",sqlSessionTemplateRef = "mybatis.db2.SqlSessionTemplate")  // 扫描Dao
 public class MybatisConfig {
+
+    private final ResourceLoader resourceLoader;
+    private final Interceptor[] interceptors;
+    private final List<ConfigurationCustomizer> configurationCustomizers;
+    private final DatabaseIdProvider databaseIdProvider;
+    private final LanguageDriver[] languageDrivers;
+
+    public MybatisConfig(ResourceLoader resourceLoader, ObjectProvider<Interceptor[]> interceptorsProvider,
+                         ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider,
+                         ObjectProvider<DatabaseIdProvider> databaseIdProvider,
+                         ObjectProvider<LanguageDriver[]> languageDriversProvider) {
+        this.resourceLoader = resourceLoader;
+        this.interceptors = interceptorsProvider.getIfAvailable();
+        this.configurationCustomizers = configurationCustomizersProvider.getIfAvailable();
+        this.databaseIdProvider = databaseIdProvider.getIfAvailable();
+        this.languageDrivers = languageDriversProvider.getIfAvailable();
+    }
+
+    @Bean
+    @Primary
+    @ConfigurationProperties(prefix = "mybatis.db1")
+    public MybatisProperties db1() {
+        return new MybatisProperties();
+    }
+
+    @Bean
+    @Primary
+    public SqlSessionFactory sqlSessionFactoryForDb1(DataSource dataSource, MybatisProperties properties) throws Exception{
+        return createSqlSessionFactory(dataSource,properties);
+    }
+
+    @Bean
+    @Primary
+    public SqlSessionTemplate sqlSessionTemplateForDb1(SqlSessionFactory sqlSessionFactory,MybatisProperties properties) {
+        ExecutorType executorType = properties.getExecutorType();
+        if (executorType != null) {
+            return new SqlSessionTemplate(sqlSessionFactory, executorType);
+        } else {
+            return new SqlSessionTemplate(sqlSessionFactory);
+        }
+    }
+
+    @Bean(value = "mybatis.db2.MybatisProperties")
+    @ConfigurationProperties(prefix = "mybatis.db2")
+    public MybatisProperties db2() {
+        return new MybatisProperties();
+    }
+
+    @Bean("mybatis.db2.SqlSessionFactory")
+    public SqlSessionFactory sqlSessionFactoryForDb2(@Qualifier("secondDataSource") DataSource dataSource, @Qualifier("mybatis.db2.MybatisProperties") MybatisProperties properties) throws Exception{
+        return createSqlSessionFactory(dataSource,properties);
+    }
+
+    @Bean("mybatis.db2.SqlSessionTemplate")
+    public SqlSessionTemplate sqlSessionTemplateForDb2(@Qualifier("mybatis.db2.SqlSessionFactory") SqlSessionFactory sqlSessionFactory, @Qualifier("mybatis.db2.MybatisProperties") MybatisProperties properties) {
+        ExecutorType executorType = properties.getExecutorType();
+        if (executorType != null) {
+            return new SqlSessionTemplate(sqlSessionFactory, executorType);
+        } else {
+            return new SqlSessionTemplate(sqlSessionFactory);
+        }
+    }
+
+
+    private SqlSessionFactory createSqlSessionFactory(DataSource dataSource, MybatisProperties properties) throws Exception {
+        SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
+        factory.setDataSource(dataSource);
+        factory.setVfs(SpringBootVFS.class);
+        if (StringUtils.hasText(properties.getConfigLocation())) {
+            factory.setConfigLocation(this.resourceLoader.getResource(properties.getConfigLocation()));
+        }
+        applyConfiguration(factory,properties);
+        if (properties.getConfigurationProperties() != null) {
+            factory.setConfigurationProperties(properties.getConfigurationProperties());
+        }
+        if (!ObjectUtils.isEmpty(this.interceptors)) {
+            factory.setPlugins(this.interceptors);
+        }
+        if (this.databaseIdProvider != null) {
+            factory.setDatabaseIdProvider(this.databaseIdProvider);
+        }
+        if (StringUtils.hasLength(properties.getTypeAliasesPackage())) {
+            factory.setTypeAliasesPackage(properties.getTypeAliasesPackage());
+        }
+        if (properties.getTypeAliasesSuperType() != null) {
+            factory.setTypeAliasesSuperType(properties.getTypeAliasesSuperType());
+        }
+        if (StringUtils.hasLength(properties.getTypeHandlersPackage())) {
+            factory.setTypeHandlersPackage(properties.getTypeHandlersPackage());
+        }
+/*        if (!ObjectUtils.isEmpty(this.typeHandlers)) {
+            factory.setTypeHandlers(this.typeHandlers);
+        }*/
+        if (!ObjectUtils.isEmpty(properties.resolveMapperLocations())) {
+            factory.setMapperLocations(properties.resolveMapperLocations());
+        }
+        Set<String> factoryPropertyNames = Stream
+                .of(new BeanWrapperImpl(SqlSessionFactoryBean.class).getPropertyDescriptors()).map(PropertyDescriptor::getName)
+                .collect(Collectors.toSet());
+        Class<? extends LanguageDriver> defaultLanguageDriver = properties.getDefaultScriptingLanguageDriver();
+        if (factoryPropertyNames.contains("scriptingLanguageDrivers") && !ObjectUtils.isEmpty(this.languageDrivers)) {
+            // Need to mybatis-spring 2.0.2+
+            factory.setScriptingLanguageDrivers(this.languageDrivers);
+            if (defaultLanguageDriver == null && this.languageDrivers.length == 1) {
+                defaultLanguageDriver = this.languageDrivers[0].getClass();
+            }
+        }
+        if (factoryPropertyNames.contains("defaultScriptingLanguageDriver")) {
+            // Need to mybatis-spring 2.0.2+
+            factory.setDefaultScriptingLanguageDriver(defaultLanguageDriver);
+        }
+
+        return factory.getObject();
+    }
+
+    private void applyConfiguration(SqlSessionFactoryBean factory, MybatisProperties properties) {
+        org.apache.ibatis.session.Configuration configuration = properties.getConfiguration();
+        if (configuration == null && !StringUtils.hasText(properties.getConfigLocation())) {
+            configuration = new org.apache.ibatis.session.Configuration();
+        }
+        if (configuration != null && !CollectionUtils.isEmpty(this.configurationCustomizers)) {
+            for (ConfigurationCustomizer customizer : this.configurationCustomizers) {
+                customizer.customize(configuration);
+            }
+        }
+        factory.setConfiguration(configuration);
+    }
 }

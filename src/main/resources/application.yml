@@ -156,13 +156,17 @@ info:
 
 ######## end Actuator
 
-mybatis:
+mybatis.db1:
   # config-location: classpath:mybatis-Config.xml
   mapper-locations: classpath:mapper/*Dao.xml
   configuration:
     map-underscore-to-camel-case: true
 
-
+mybatis.db2:
+  # config-location: classpath:mybatis-Config.xml
+  mapper-locations: classpath:mapper2/*Dao.xml
+  configuration:
+    map-underscore-to-camel-case: true
 
 
 #yml文件中支持使用三个短横线分割文档块的方式
