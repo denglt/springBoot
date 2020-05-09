@@ -24,16 +24,16 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insert" parameterType="com.springboot.model.User" useGeneratedKeys="true" keyProperty="id">
-    insert into user (id, `name`, age, 
+<!--  <insert id="insert" parameterType="com.springboot.model.User" useGeneratedKeys="true" keyProperty="id">
+    insert into user (id, `name`, age,
       sex, password, `role`, head_photo,
       create_time , create_timestamp, zone_create_time
       )
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
       #{sex,jdbcType=BIT}, #{password,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, #{headPhoto,jdbcType=VARCHAR},
       #{createTime},#{createTimestamp},#{zoneCreateTime}
       )
-  </insert>
+  </insert>-->
   <insert id="insertSelective" parameterType="com.springboot.model.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">

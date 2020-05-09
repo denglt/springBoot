@@ -5,6 +5,7 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.TypeHandler;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -18,7 +19,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -32,22 +35,19 @@ import java.util.stream.Stream;
 
 
 /**
- * MybatisAutoConfiguration
- * @see ClassPathMapperScanner
  * @Description:
  * @Package: com.springboot.config
  * @Author: denglt
  * @Date: 2019-12-16 21:18
  * @Copyright: 版权归 HSYUNTAI 所有
+ * @see org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration
+ *
+ *
  */
 
-/**
- * 这儿有个很好的列子：
- * https://github.com/ityouknow/spring-boot-examples/tree/master/spring-boot-mybatis
- */
-@Configuration
+//@Configuration
 @MapperScan("com.springboot.orm")  // 扫描Dao
-@MapperScan(value = "com.springboot.orm2",sqlSessionTemplateRef = "mybatis.db2.SqlSessionTemplate")  // 扫描Dao
+@MapperScan(value = "com.springboot.orm2", sqlSessionTemplateRef = "mybatis.db2.SqlSessionTemplate")  // 扫描Dao
 public class MybatisConfig {
 
     private final ResourceLoader resourceLoader;
@@ -55,55 +55,58 @@ public class MybatisConfig {
     private final List<ConfigurationCustomizer> configurationCustomizers;
     private final DatabaseIdProvider databaseIdProvider;
     private final LanguageDriver[] languageDrivers;
+    private final TypeHandler[] typeHandlers;
 
-    public MybatisConfig(ResourceLoader resourceLoader, ObjectProvider<Interceptor[]> interceptorsProvider,
-                         ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider,
-                         ObjectProvider<DatabaseIdProvider> databaseIdProvider,
-                         ObjectProvider<LanguageDriver[]> languageDriversProvider) {
+    public MybatisConfig(ObjectProvider<Interceptor[]> interceptorsProvider,
+                         ObjectProvider<TypeHandler[]> typeHandlersProvider, ObjectProvider<LanguageDriver[]> languageDriversProvider,
+                         ResourceLoader resourceLoader, ObjectProvider<DatabaseIdProvider> databaseIdProvider,
+                         ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider) {
         this.resourceLoader = resourceLoader;
         this.interceptors = interceptorsProvider.getIfAvailable();
         this.configurationCustomizers = configurationCustomizersProvider.getIfAvailable();
         this.databaseIdProvider = databaseIdProvider.getIfAvailable();
         this.languageDrivers = languageDriversProvider.getIfAvailable();
+        this.typeHandlers = typeHandlersProvider.getIfAvailable();
     }
 
     @Bean
     @Primary
     @ConfigurationProperties(prefix = "mybatis.db1")
-    public MybatisProperties db1() {
+    public MybatisProperties db1Properties() {
         return new MybatisProperties();
     }
 
     @Bean
     @Primary
-    public SqlSessionFactory sqlSessionFactoryForDb1(DataSource dataSource, MybatisProperties properties) throws Exception{
-        return createSqlSessionFactory(dataSource,properties);
+    public SqlSessionFactory sqlSessionFactoryForDb1(DataSource dataSource, MybatisProperties properties) throws Exception {
+        checkConfigFileExists(properties);
+        return sqlSessionFactory(dataSource, properties);
     }
 
     @Bean
     @Primary
-    public SqlSessionTemplate sqlSessionTemplateForDb1(SqlSessionFactory sqlSessionFactory,MybatisProperties properties) {
-        ExecutorType executorType = properties.getExecutorType();
-        if (executorType != null) {
-            return new SqlSessionTemplate(sqlSessionFactory, executorType);
-        } else {
-            return new SqlSessionTemplate(sqlSessionFactory);
-        }
+    public SqlSessionTemplate sqlSessionTemplateForDb1(SqlSessionFactory sqlSessionFactory, MybatisProperties properties) {
+        return sqlSessionTemplate(sqlSessionFactory, properties);
     }
 
     @Bean(value = "mybatis.db2.MybatisProperties")
     @ConfigurationProperties(prefix = "mybatis.db2")
-    public MybatisProperties db2() {
+    public MybatisProperties db2Properties() {
         return new MybatisProperties();
     }
 
     @Bean("mybatis.db2.SqlSessionFactory")
-    public SqlSessionFactory sqlSessionFactoryForDb2(@Qualifier("secondDataSource") DataSource dataSource, @Qualifier("mybatis.db2.MybatisProperties") MybatisProperties properties) throws Exception{
-        return createSqlSessionFactory(dataSource,properties);
+    public SqlSessionFactory sqlSessionFactoryForDb2(@Qualifier("secondDataSource") DataSource dataSource, @Qualifier("mybatis.db2.MybatisProperties") MybatisProperties properties) throws Exception {
+        checkConfigFileExists(properties);
+        return sqlSessionFactory(dataSource, properties);
     }
 
     @Bean("mybatis.db2.SqlSessionTemplate")
     public SqlSessionTemplate sqlSessionTemplateForDb2(@Qualifier("mybatis.db2.SqlSessionFactory") SqlSessionFactory sqlSessionFactory, @Qualifier("mybatis.db2.MybatisProperties") MybatisProperties properties) {
+        return sqlSessionTemplate(sqlSessionFactory, properties);
+    }
+
+    private SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory, MybatisProperties properties) {
         ExecutorType executorType = properties.getExecutorType();
         if (executorType != null) {
             return new SqlSessionTemplate(sqlSessionFactory, executorType);
@@ -112,15 +115,14 @@ public class MybatisConfig {
         }
     }
 
-
-    private SqlSessionFactory createSqlSessionFactory(DataSource dataSource, MybatisProperties properties) throws Exception {
+    private SqlSessionFactory sqlSessionFactory(DataSource dataSource, MybatisProperties properties) throws Exception {
         SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
         factory.setDataSource(dataSource);
         factory.setVfs(SpringBootVFS.class);
         if (StringUtils.hasText(properties.getConfigLocation())) {
             factory.setConfigLocation(this.resourceLoader.getResource(properties.getConfigLocation()));
         }
-        applyConfiguration(factory,properties);
+        applyConfiguration(factory, properties);
         if (properties.getConfigurationProperties() != null) {
             factory.setConfigurationProperties(properties.getConfigurationProperties());
         }
@@ -139,9 +141,9 @@ public class MybatisConfig {
         if (StringUtils.hasLength(properties.getTypeHandlersPackage())) {
             factory.setTypeHandlersPackage(properties.getTypeHandlersPackage());
         }
-/*        if (!ObjectUtils.isEmpty(this.typeHandlers)) {
+        if (!ObjectUtils.isEmpty(this.typeHandlers)) {
             factory.setTypeHandlers(this.typeHandlers);
-        }*/
+        }
         if (!ObjectUtils.isEmpty(properties.resolveMapperLocations())) {
             factory.setMapperLocations(properties.resolveMapperLocations());
         }
@@ -175,5 +177,13 @@ public class MybatisConfig {
             }
         }
         factory.setConfiguration(configuration);
+    }
+
+    private void checkConfigFileExists(MybatisProperties properties) {
+        if (properties.isCheckConfigLocation() && StringUtils.hasText(properties.getConfigLocation())) {
+            Resource resource = this.resourceLoader.getResource(properties.getConfigLocation());
+            Assert.state(resource.exists(),
+                    "Cannot find config location: " + resource + " (please add config file or check your Mybatis configuration)");
+        }
     }
 }

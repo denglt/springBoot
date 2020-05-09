@@ -132,6 +132,7 @@ public class UserServiceImpl {
         newUser.setCreateTime(date);
         newUser.setCreateTimestamp(date.getTime());
         newUser.setZoneCreateTime(new Timestamp(date.getTime()));
+        newUser.setNoField("nofield");
         userDao.insert(newUser);
        // throw new RuntimeException("就是要报错！");
         return newUser;
@@ -165,4 +166,8 @@ public class UserServiceImpl {
         return newUser;
     }
 
+    @Transactional
+    public void delete(Long id){
+        userDao.deleteById(id);
+    }
 }

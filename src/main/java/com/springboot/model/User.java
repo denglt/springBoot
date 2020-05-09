@@ -1,11 +1,17 @@
 package com.springboot.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
 public class User implements Serializable {
     private static final long serialVersionUID = 6060813389471923239L;
+
+    @TableId(type = IdType.AUTO)
     private Integer id;
     private String name;
     private Integer age;
@@ -16,6 +22,7 @@ public class User implements Serializable {
     private Date createTime ;
     private Long createTimestamp;
     private Timestamp zoneCreateTime;
+    private String  noField;
 
     public User(){
 
@@ -104,5 +111,13 @@ public class User implements Serializable {
 
     public void setZoneCreateTime(Timestamp zoneCreateTime) {
         this.zoneCreateTime = zoneCreateTime;
+    }
+
+    public String getNoField() {
+        return noField;
+    }
+
+    public void setNoField(String noField) {
+        this.noField = noField;
     }
 }

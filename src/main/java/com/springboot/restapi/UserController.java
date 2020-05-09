@@ -107,6 +107,10 @@ public class UserController {
         return userService.createUserByRandomWithOrmUserDaoInTxManager2();
     }
 
+    @RequestMapping(value = "/delete/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    void delete(@PathVariable("id") Long id){
+        userService.delete(id);
+    }
 }
 
 
