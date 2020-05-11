@@ -9,11 +9,12 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="role" jdbcType="VARCHAR" property="role" />
     <result column="head_photo" jdbcType="VARCHAR" property="headPhoto" />
+    <result column="create_timestamp" jdbcType="BIGINT" property="createTimestamp" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, `name`, age, sex, passwword, `role`, head_photo , create_time , create_timestamp ,zone_create_time
+    id, `name`, age, sex, password, `role`, head_photo , create_time , create_timestamp ,zone_create_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="com.springboot.model.User">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="com.springboot.model.User" >
     select 
     <include refid="Base_Column_List" />
     from user

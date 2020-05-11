@@ -31,7 +31,7 @@
       )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
       #{sex,jdbcType=BIT}, #{password,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, #{headPhoto,jdbcType=VARCHAR},
-      #{createTime},#{createTimestamp},#{zoneCreateTime}
+      #{createTime},#{createTimestamp,jdbcType=BIGINT},#{zoneCreateTime}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.springboot.model.User">

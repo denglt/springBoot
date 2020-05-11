@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import com.spring.helper.mybatis.DateToLongTypeHandler;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.scripting.LanguageDriver;
@@ -129,6 +130,11 @@ public class MybatisPlusConfig {
     @Bean("mybatis.db2.SqlSessionTemplate")
     public SqlSessionTemplate sqlSessionTemplateForDb2(@Qualifier("mybatis.db2.SqlSessionFactory") SqlSessionFactory sqlSessionFactory, @Qualifier("mybatis.db2.MybatisProperties") MybatisPlusProperties properties) {
         return sqlSessionTemplate(sqlSessionFactory, properties);
+    }
+
+    @Bean
+    public static TypeHandler typeHandler(){
+        return  new DateToLongTypeHandler();
     }
 
     private void customizeProperties(MybatisPlusProperties properties) {

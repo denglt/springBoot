@@ -1,5 +1,6 @@
 package com.springboot.config;
 
+import com.spring.helper.mybatis.DateToLongTypeHandler;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.scripting.LanguageDriver;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -104,6 +104,11 @@ public class MybatisConfig {
     @Bean("mybatis.db2.SqlSessionTemplate")
     public SqlSessionTemplate sqlSessionTemplateForDb2(@Qualifier("mybatis.db2.SqlSessionFactory") SqlSessionFactory sqlSessionFactory, @Qualifier("mybatis.db2.MybatisProperties") MybatisProperties properties) {
         return sqlSessionTemplate(sqlSessionFactory, properties);
+    }
+
+    @Bean
+    public static TypeHandler typeHandler(){
+        return  new DateToLongTypeHandler();
     }
 
     private SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory, MybatisProperties properties) {

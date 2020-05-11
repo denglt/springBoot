@@ -2,8 +2,11 @@ package com.springboot.orm2.user;
 
 import com.springboot.model.User;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.TypeDiscriminator;
+import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository("orm2UserDao")
