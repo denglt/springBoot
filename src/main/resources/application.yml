@@ -37,6 +37,7 @@ logging:
   level:
     root: info
 
+#多数据库
 app.datasource:
   db1:
     url: jdbc:mysql://localhost/med2?serverTimezone=Asia/Shanghai

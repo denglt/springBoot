@@ -1,8 +1,13 @@
 package com.springboot.restapi;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.springboot.aop.MyAopAnnotation;
 import com.springboot.model.User;
+import com.springboot.orm.user.UserDao;
 import com.springboot.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -12,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -26,6 +33,9 @@ public class UserController {
 
     @Autowired
     UserServiceImpl userService;
+
+    @Autowired
+    ServiceImpl<UserDao,User> baseUserService;
 
     @MyAopAnnotation(value = "u/ser/get")
     @Cacheable(value = "user")
@@ -85,9 +95,35 @@ public class UserController {
     @RequestMapping(value = "/alldb", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     List<User> getFromDB() {
         System.out.println("get all from db");
-        return userService.getAllFromDb();
+        //  return userService.getAllFromDb();
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("name","denglt").orderByDesc("id").last("limit 1");
+        return baseUserService.list(queryWrapper);
     }
 
+    @RequestMapping(value = "/page", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    List<User> pageFromDB() {
+        System.out.println("get all from db");
+        //  return userService.getAllFromDb();
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("name","denglt").orderByDesc("id");
+        // return baseUserService.list(queryWrapper);
+        Page<User> page = new Page(1,3);
+        return baseUserService.page(page,queryWrapper).getRecords();
+    }
+
+
+
+    @RequestMapping(value = "/createTowUser", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    List<User> createTowUser() {
+        List<User> userList = new ArrayList<>();
+        userList.add(userService.createUserByRandom());
+        User newUser = userService.newUserByRandom();
+        if (baseUserService.save(newUser)) {
+            userList.add(newUser);
+        }
+        return userList;
+    }
 
     @RequestMapping(value = "/createUser", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     User createUser() {
@@ -109,7 +145,14 @@ public class UserController {
 
     @RequestMapping(value = "/delete/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     void delete(@PathVariable("id") Long id){
-        userService.delete(id);
+       // userService.delete(id);
+        baseUserService.removeById(id);
+    }
+
+    @RequestMapping(value = "/query", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    List<User> query(){
+        QueryChainWrapper<User> query = baseUserService.query().like("name", "denglt").eq("id", 34);
+        return  query.list();
     }
 }
 

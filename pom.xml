@@ -27,6 +27,7 @@
         <mybatis-plus-boot-starter.versoin>3.3.1</mybatis-plus-boot-starter.versoin>
         <mysql.version>8.0.20</mysql.version>
         <fastjson.version>1.2.8</fastjson.version>
+        <poi-version>3.16</poi-version>
     </properties>
 
     <dependencies>
@@ -159,10 +160,40 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.yuntai</groupId>
+            <artifactId>yt-med-support</artifactId>
+            <version>1.0</version>
+        </dependency>
+
         <!-- test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.yuntai</groupId>
+            <artifactId>yt-med-support</artifactId>
+            <version>1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.yuntai</groupId>
+            <artifactId>yt-med-support</artifactId>
+            <version>1.0</version>
             <scope>test</scope>
         </dependency>
 

@@ -1,9 +1,6 @@
 package com.springboot.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.spring.helper.mybatis.DateToLongTypeHandler;
 import org.apache.ibatis.annotations.TypeDiscriminator;
 import org.apache.ibatis.type.JdbcType;
@@ -12,11 +9,17 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
+// @KeySequence("mySequence")
 public class User implements Serializable {
     private static final long serialVersionUID = 6060813389471923239L;
 
+
+
     @TableId(type = IdType.AUTO)
+//    @TableId(type = IdType.INPUT) // 可以配合@KeySequence一起使用
     private Integer id;
+
+    @TableField(condition = SqlCondition.LIKE)
     private String name;
     private Integer age;
     private Integer sex;
@@ -29,6 +32,11 @@ public class User implements Serializable {
     private Date createTimestamp;  // jdbcType ：bigint；
     private Timestamp zoneCreateTime;
     private String  noField;
+
+    @TableField(exist = false)
+    private String test;
+
+
 
     public User(){
 

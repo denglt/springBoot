@@ -7,6 +7,9 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
+import com.baomidou.mybatisplus.extension.incrementer.OracleKeyGenerator;
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.spring.helper.mybatis.DateToLongTypeHandler;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
@@ -92,7 +95,6 @@ public class MybatisPlusConfig {
     }
 
 
-
     @Bean
     @Primary
     @ConfigurationProperties(prefix = "mybatis.db1")
@@ -131,10 +133,39 @@ public class MybatisPlusConfig {
     public SqlSessionTemplate sqlSessionTemplateForDb2(@Qualifier("mybatis.db2.SqlSessionFactory") SqlSessionFactory sqlSessionFactory, @Qualifier("mybatis.db2.MybatisProperties") MybatisPlusProperties properties) {
         return sqlSessionTemplate(sqlSessionFactory, properties);
     }
+/* 配置 IKeyGenerator
+    @Bean
+    public static MybatisPlusPropertiesCustomizer plusPropertiesCustomizer() {
+        return plusProperties -> plusProperties.getGlobalConfig().getDbConfig().setKeyGenerator(new OracleKeyGenerator());
+    }
 
     @Bean
-    public static TypeHandler typeHandler(){
-        return  new DateToLongTypeHandler();
+    public static IKeyGenerator keyGenerator(){
+        return new OracleKeyGenerator();
+    }
+ */
+
+    @Bean
+    public static IdentifierGenerator idGenerator() {
+        return new CustomIdGenerator();
+    }
+
+    @Bean
+    public static TypeHandler typeHandler() {
+        return new DateToLongTypeHandler();
+    }
+
+
+    @Bean
+    public static PaginationInterceptor paginationInterceptor() {
+        PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+        // 设置请求的页面大于最大页后操作， true调回到首页，false 继续请求  默认false
+        // paginationInterceptor.setOverflow(false);
+        // 设置最大单页限制数量，默认 500 条，-1 不受限制
+        // paginationInterceptor.setLimit(500);
+        // 开启 count 的 join 优化,只针对部分 left join
+        paginationInterceptor.setCountSqlParser(new JsqlParserCountOptimize(true));
+        return paginationInterceptor;
     }
 
     private void customizeProperties(MybatisPlusProperties properties) {
@@ -157,7 +188,7 @@ public class MybatisPlusConfig {
         MybatisSqlSessionFactoryBean factory = new MybatisSqlSessionFactoryBean();
         factory.setDataSource(dataSource);
         factory.setVfs(SpringBootVFS.class);
-        if (StringUtils.hasText(properties.getConfigLocation())){
+        if (StringUtils.hasText(properties.getConfigLocation())) {
             factory.setConfigLocation(this.resourceLoader.getResource(properties.getConfigLocation()));
         }
         applyConfiguration(factory, properties);
@@ -249,4 +280,15 @@ public class MybatisPlusConfig {
         }
     }
 
+    public static class CustomIdGenerator implements IdentifierGenerator {
+        @Override
+        public Long nextId(Object entity) {
+            //可以将当前传入的class全类名来作为bizKey,或者提取参数来生成bizKey进行分布式Id调用生成.
+            String bizKey = entity.getClass().getName();
+            //根据bizKey调用分布式ID生成
+            long id = 1;
+            //返回生成的id值即可.
+            return id;
+        }
+    }
 }

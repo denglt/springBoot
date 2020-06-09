@@ -1,11 +1,13 @@
 package com.springboot.service;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.springboot.model.User;
 import com.springboot.orm.user.User2Dao;
 import com.springboot.orm.user.UserDao;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -123,6 +125,18 @@ public class UserServiceImpl {
         return userDao.getAll();
     }
 
+    public User newUserByRandom(){
+        User newUser = new User();
+        newUser.setName("denglt" + System.currentTimeMillis());
+        newUser.setPassword(null);
+        Date date = new Date();
+        newUser.setCreateTime(date);
+        newUser.setCreateTimestamp(date);
+        newUser.setZoneCreateTime(new Timestamp(date.getTime()));
+        newUser.setNoField("nofield");
+        return newUser;
+    }
+
     @Transactional
     public User createUserByRandom() {
         User newUser = new User();
@@ -169,5 +183,15 @@ public class UserServiceImpl {
     @Transactional
     public void delete(Long id){
         userDao.deleteById(id);
+    }
+
+    @Bean
+    public ServiceImpl<UserDao,User> baseUserService(){
+      //  return  new ServiceImpl<>(); is error;
+        return  new UserServiceImpl2();
+    }
+
+    class UserServiceImpl2 extends ServiceImpl<UserDao,User>{
+
     }
 }
