@@ -19,13 +19,15 @@ public class User implements Serializable {
 //    @TableId(type = IdType.INPUT) // 可以配合@KeySequence一起使用
     private Integer id;
 
-    @TableField(condition = SqlCondition.LIKE)
+    @TableField(condition = SqlCondition.LIKE, fill = FieldFill.INSERT_UPDATE)
     private String name;
     private Integer age;
     private Integer sex;
     private String password;
     private String role;
     private String headPhoto;
+
+    @TableField(update = "now()")
     private Date createTime ;
 
     @TableField(jdbcType = JdbcType.BIGINT , typeHandler = DateToLongTypeHandler.class)
@@ -36,7 +38,8 @@ public class User implements Serializable {
     @TableField(exist = false)
     private String test;
 
-
+    @TableLogic
+    private Integer deleted;
 
     public User(){
 

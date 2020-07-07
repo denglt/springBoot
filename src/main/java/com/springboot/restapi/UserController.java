@@ -97,7 +97,7 @@ public class UserController {
         System.out.println("get all from db");
         //  return userService.getAllFromDb();
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("name","denglt").orderByDesc("id").last("limit 1");
+        queryWrapper.like("name","denglt").orderByDesc("id");//.last("limit 1");
         return baseUserService.list(queryWrapper);
     }
 
@@ -149,9 +149,9 @@ public class UserController {
         baseUserService.removeById(id);
     }
 
-    @RequestMapping(value = "/query", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    List<User> query(){
-        QueryChainWrapper<User> query = baseUserService.query().like("name", "denglt").eq("id", 34);
+    @RequestMapping(value = "/query/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    List<User> query(@PathVariable("id") Long id){
+        QueryChainWrapper<User> query = baseUserService.query().like("name", "denglt").eq("id", id);
         return  query.list();
     }
 }
