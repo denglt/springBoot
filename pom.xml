@@ -198,7 +198,7 @@
         </dependency>
 
         <!--
-        spring-boot-starter-logging 和 spring-boot-starter-log4j2 区之一
+        spring-boot-starter-logging 和 spring-boot-starter-log4j2 取其一
         否则：SpringBoot使用log4j2启动java.lang.StackOverflowError的原因
 
         <dependency>

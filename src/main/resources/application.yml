@@ -40,10 +40,13 @@ logging:
 #多数据库
 app.datasource:
   db1:
-    url: jdbc:mysql://localhost/med2?serverTimezone=Asia/Shanghai
+    #url: jdbc:mysql://localhost/med2?serverTimezone=Asia/Shanghai
+    #username: root
+    #password: denglt
+    url: jdbc:mysql://localhost:23306/med2?zeroDateTimeBehavior=convertToNull
+    username: med2
+    password: lineage11494
     driver-class-name: "com.mysql.jdbc.Driver"
-    username: root
-    password: denglt
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       auto-commit: false   #默认 true
@@ -52,9 +55,9 @@ app.datasource:
 
   db2:
     url: jdbc:mysql://localhost/med2?serverTimezone=Asia/Shanghai
-    driver-class-name: "com.mysql.jdbc.Driver"
     username: root
     password: denglt
+    driver-class-name: "com.mysql.jdbc.Driver"
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       auto-commit: false   #默认 true
@@ -162,6 +165,7 @@ mybatis.db1:
   mapper-locations: classpath:mapper/*Dao.xml
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl   # sql 日志
 
 mybatis.db2:
   # config-location: classpath:mybatis-Config.xml

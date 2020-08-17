@@ -51,7 +51,7 @@ public class TaskSchedulerConfig implements SchedulingConfigurer {  // Scheduled
             TimeUnit.SECONDS.sleep(5);   // 最终 5s 一次
         } catch (InterruptedException ex) {
             logger.error("Ran into an error {}", ex);
-            throw new IllegalStateException(ex);
+           // throw new IllegalStateException(ex);
         }
     }
 
