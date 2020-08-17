@@ -2,6 +2,7 @@ package com.springboot.app;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.springboot.model.DrugCatalogue;
 
 import com.springboot.orm.user.DrugCatalogueDao;
@@ -50,8 +51,20 @@ public class DrugCatalogueDaoTest {
             int i = drugCatalogueDao.updateById(drugCatalogue);
             System.out.println("update count " + i);
         });
+    }
 
-
-
+    /**
+     *  UpdateWrapper 可以直接 set 想要更新的字段，支持null
+     */
+    @Test
+    public void update(){
+        UpdateWrapper<DrugCatalogue> wrapper = new UpdateWrapper<>();
+        wrapper.eq("dp_id",217).like("drug_code","denglt%");
+        DrugCatalogue drugCatalogue = new DrugCatalogue();
+        drugCatalogue.setDrugCode("dengltxxxx");
+        wrapper.set("drug_wb",null); // drug_wb = null
+       // wrapper.set("drug_code",null);
+        int update = drugCatalogueDao.update(drugCatalogue, wrapper);
+        System.out.println("update count " + update);
     }
 }
