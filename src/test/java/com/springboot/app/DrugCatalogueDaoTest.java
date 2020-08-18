@@ -1,13 +1,12 @@
 package com.springboot.app;
 
-
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.springboot.model.DrugCatalogue;
 
 import com.springboot.orm.user.DrugCatalogueDao;
+import com.springboot.utils.JsonUtils;
 import com.yuntai.med.support.util.HzUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Description:
@@ -84,6 +82,27 @@ public class DrugCatalogueDaoTest {
 
         String pageInfo = "current:" + page.getCurrent() + "; size:" + page.getSize() + "; total:" + page.getTotal() + "; pages:" + page.getPages();
         System.out.println(pageInfo);
+        page.setRecords(null);
+        //System.out.println(JSON.toJSONString(page));  is error
+
+        System.out.println(JsonUtils.toJson(page));
+        System.out.println(page == pageData);  // true
+    }
+
+    @Test
+    public void mySelectPage(){
+        Page<DrugCatalogue> page = new Page<>();
+        page.setCurrent(3);
+        page.setSize(15);
+        List<DrugCatalogue> drugCatalogues = drugCatalogueDao.mySelectPage(page, 217l);
+        System.out.println(drugCatalogues.getClass());
+        System.out.println(JsonUtils.toJson(page)); // page.records is null {"records":[],"total":700,"size":15,"current":3,"orders":[],"hitCount":false,"searchCount":true,"pages":47}
+        System.out.println( drugCatalogues == page.getRecords()); // false
+
+
+        Page<DrugCatalogue> drugCatalogues2 = drugCatalogueDao.mySelectPage2(page, 217l);
+        System.out.println(JsonUtils.toJson(page)); // page.records is not null
+        System.out.println( drugCatalogues2 == page);
 
     }
 }
