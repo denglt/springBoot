@@ -1,4 +1,6 @@
 # Server HTTP port.
+
+# spring boot 通过 ConfigFileApplicationListener 加载 application.yml\preperties 文件
 server:
   servlet:
     context-path: /springboot
@@ -33,7 +35,7 @@ acme:
       description: my description 1
 
 logging:
-  file: /tmp/log/${spring.application.name}/springBootDemo.log
+  file: D:/log/${spring.application.name}/springBootDemo.log
   level:
     root: info
 

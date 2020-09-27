@@ -21,7 +21,7 @@ public class OnlyContextRefreshedEvent implements ApplicationListener<ContextRef
     @Async
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        logger.info("spring容易初始化完毕================================================888");
+        logger.info("spring容器初始化完毕================================================888");
     }
 
     public static void main(String[] args) {

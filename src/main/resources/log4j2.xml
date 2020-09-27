@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- status=debug 可以查看log4j的装配过程，monitorInterval运行时，动态重新加载log4j2配置文件的间隔时间，单位秒 -->
-<configuration status="${log-level}" monitorInterval="3600">
+<configuration status="info" monitorInterval="3600">
 
 	<properties>
 		<property name="CONSOLE_LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%5p} %style{%processId}{magenta} --- [%15.15t] %style{%-40.40c{1.}}{cyan} : %m%n</property>
@@ -17,8 +17,8 @@
 		</Console >
 		<!-- 默认日志 -->
 		<RollingRandomAccessFile name="default" immediateFlush="true" append="true"
-								 fileName="/log/demo/demo-server.log"
-								 filePattern="/log/demo/demo-server-%d{yyyy-MM-dd}.log">
+								 fileName="D:/log/demo/demo-server.log"
+								 filePattern="D:/log/demo/demo-server-%d{yyyy-MM-dd}.log">
 			<PatternLayout pattern="${FILE_LOG_PATTERN}" />
 			<Policies>
 				<!-- TimeBased Triggering Policy 基于时间的触发策略。该策略主要是完成周期性的log文件封存工作。有两个参数：
@@ -31,8 +31,8 @@
 
 		<!-- 失败日志 -->
 		<RollingRandomAccessFile name="error" immediateFlush="true" append="true"
-								 fileName="/log/demo/error.log"
-								 filePattern="/log/demo/error-%d{yyyy-MM-dd}.log">
+								 fileName="D:/log/demo/error.log"
+								 filePattern="D:/log/demo/error-%d{yyyy-MM-dd}.log">
 			<Filters>
 				<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
 			</Filters>
@@ -50,7 +50,7 @@
 			<AppenderRef ref="error" />
 		</Logger>
 
-		<Root level="${log-level}"> <!-- 全局配置 -->
+		<Root level="info"> <!-- 全局配置 -->
 			<AppenderRef ref="console" />
 			<AppenderRef ref="default" />
 			<AppenderRef ref="error" />

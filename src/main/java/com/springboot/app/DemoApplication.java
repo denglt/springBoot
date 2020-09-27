@@ -26,15 +26,17 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableScheduling
 @EnableAsync
 @SpringBootApplication
-public class DemoApplication extends SpringBootServletInitializer {  // extends SpringBootServletInitializer  for spring boot war(部署到容器时使用)
+public class DemoApplication  {  // extends SpringBootServletInitializer  for spring boot war(部署到容器时使用)
 
     private static ConfigurableApplicationContext applicationContext;
 
+/*
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         System.out.println("run SpringBootServletInitializer configure");
         return application.sources(DemoApplication.class);
     }
+*/
 
     @RequestMapping("/")
     String index() {
@@ -46,7 +48,7 @@ public class DemoApplication extends SpringBootServletInitializer {  // extends 
         System.out.println("run main");
         // System.setProperty("spring.devtools.restart.enabled", "false");
         System.setProperty("es.set.netty.runtime.available.processors", "false");
-        run2(args);
+        run1(args);
     }
 
     private static void run1(String[] args) {
