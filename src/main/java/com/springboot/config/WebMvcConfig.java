@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
 import org.springframework.http.converter.xml.SourceHttpMessageConverter;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,17 +32,29 @@ import java.util.List;
  */
 
 /**
- * WebMvc的配置  （spring @EnableWebMvc -> WebMvcConfigurationSupport -> RequestMappingHandlerMapping ）
+ * WebMvc的配置  （spring @EnableWebMvc -> WebMvcConfigurationSupport : createRequestMappingHandlerMapping , createRequestMappingHandlerAdapter ）
  * <p>
- * Spring boot  @see WebMvcAutoConfiguration (WebMvcAutoConfigurationAdapter ,EnableWebMvcConfiguration )  HttpMessageConvertersAutoConfiguration
+ * Spring boot  @see WebMvcAutoConfiguration (WebMvcAutoConfigurationAdapter ,EnableWebMvcConfiguration extends DelegatingWebMvcConfiguration )  HttpMessageConvertersAutoConfiguration
+ *
+ *  如何配置自定义的：  HandlerMethodArgumentResolver  HandlerMethodReturnValueHandler
  */
 
 @Configuration
 //@EnableWebMvc
 //@ServletComponentScan(basePackages = "com.springboot")  // scan @WebServlet, @WebFilter, @WebListener (servlet 3.0)
-public class WebMvcConfig extends WebMvcConfigurerAdapter {
+public class WebMvcConfig implements WebMvcConfigurer { //  WebMvcConfigurer 将会注入到 DelegatingWebMvcConfiguration中，进行WebMvc的自定义
 
     private static Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+
+    }
+
+    @Override
+    public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> handlers) {
+
+    }
 
     /**
      * HttpMessageConverter
@@ -174,7 +188,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        super.addResourceHandlers(registry);
+        WebMvcConfigurer.super.addResourceHandlers(registry);
         registry.addResourceHandler("/WEB-INF/**").addResourceLocations("classpath:/WEB-INF/");
         registry.addResourceHandler("/**").addResourceLocations("classpath:/WEB-INF/","classpath:/static/");
 
