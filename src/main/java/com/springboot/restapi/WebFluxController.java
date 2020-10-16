@@ -5,20 +5,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.server.ServerRequest;
-import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 /**
  * @Description:
@@ -40,7 +38,7 @@ public class WebFluxController {
     private User author;
 
     @Autowired
-    private Executor executor;
+    private AsyncTaskExecutor executor;
 
 
     private Scheduler scheduler;

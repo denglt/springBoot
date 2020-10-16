@@ -57,10 +57,11 @@ public class WebMvcConfig implements WebMvcConfigurer { //  WebMvcConfigurer 将
     }
 
     /**
+     * spring boot 的机制 （注意会影响到RestTemplate）
      * HttpMessageConverter
      * 使用阿里的FastJson进行json (RequestMappingHandlerAdapter.messageConverters)
      * <p>
-     * 注意会影响到RestTemplate
+     *
      *
      * @return
      */
@@ -77,7 +78,12 @@ public class WebMvcConfig implements WebMvcConfigurer { //  WebMvcConfigurer 将
         return new HttpMessageConverters(true, Collections.singletonList(jsonHttpMessageConverter));
 
     }
+   // 跟上创建HttpMessageConverters 功能相同
+    // 这儿配置的HttpMessageConverter，将代替默认的HttpMessageConverter。
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 
+    }
 
     /**
      * 跨域配置   @CrossOrigin

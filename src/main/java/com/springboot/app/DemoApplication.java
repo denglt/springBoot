@@ -18,13 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@EnableConfigurationProperties
 @ComponentScan(value = {"com.springboot"})
 @RestController
 @EnableAutoConfiguration(/*exclude = {DataSourceAutoConfiguration.class}*/) // spring.factories 文件中配置了  Auto Configure
 @EnableCaching
-@EnableScheduling
-@EnableAsync
 @SpringBootApplication
 public class DemoApplication  {  // extends SpringBootServletInitializer  for spring boot war(部署到容器时使用)
 
@@ -53,11 +50,12 @@ public class DemoApplication  {  // extends SpringBootServletInitializer  for sp
 
     private static void run1(String[] args) {
         SpringApplication springApplication = new SpringApplication(DemoApplication.class); // AnnotationConfigApplicationContext,AnnotationConfigServletWebServerApplicationContext
-        springApplication.setBanner((environment, sourceClass, out) -> out.println("hello world by denglt!"));
+      //  springApplication.setBanner((environment, sourceClass, out) -> out.println("hello world by denglt!"));
       //  springApplication.setWebApplicationType(WebApplicationType.NONE);
         springApplication.setBannerMode(Banner.Mode.CONSOLE);
         // springApplication.setApplicationContextClass();
         // springApplication.addInitializers();
+       // springApplication.setAllowBeanDefinitionOverriding(true); // spring boot 2.3.4
         applicationContext = springApplication.run(args);
         //springApplication.setWebApplicationType(WebApplicationType.REACTIVE);
     }

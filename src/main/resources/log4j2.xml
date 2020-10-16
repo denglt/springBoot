@@ -2,9 +2,9 @@
 <!-- status=debug 可以查看log4j的装配过程，monitorInterval运行时，动态重新加载log4j2配置文件的间隔时间，单位秒 -->
 <configuration status="info" monitorInterval="3600">
 
-	<properties>
-		<property name="CONSOLE_LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%5p} %style{%processId}{magenta} --- [%15.15t] %style{%-40.40c{1.}}{cyan} : %m%n</property>
-		<property name="FILE_LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %processId --- [%15.15t] %-40.40c{1.} : %m%n</property>
+	<properties>  <!--  %d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%5p} %style{%processId}{magenta}  [%15.15t] %style{%-40.40c{1.}}{cyan} : %m%n -->
+		<property name="CONSOLE_LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%-5p] %c:%L - %m%n</property>
+		<property name="FILE_LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%-5p] %c:%L - %m%n</property>
 	</properties>
 
 	<Appenders>

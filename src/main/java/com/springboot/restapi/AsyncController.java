@@ -20,7 +20,8 @@ public class AsyncController {
 
     protected static Logger logger = LoggerFactory.getLogger(AsyncController.class);
 
-    @Resource
+    @Resource(name="myExecutor")
+    //@Autowired
     private AsyncTaskExecutor executor;
 
     /**

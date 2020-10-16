@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 @ConfigurationProperties(prefix = "spring.task.scheduler.pool")
 public class TaskSchedulerConfig implements SchedulingConfigurer {  // ScheduledAnnotationBeanPostProcessor 会处理该接口
 
-    private static final Logger logger = LoggerFactory.getLogger(MyStartupRunner.class);
+    private static final Logger logger = LoggerFactory.getLogger(TaskSchedulerConfig.class);
     private int poolSize = 10;
     private String threadNamePrefix = "my-scheduled-task-pool-";
 

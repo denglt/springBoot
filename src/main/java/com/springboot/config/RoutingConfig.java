@@ -23,7 +23,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
  */
 
 @Configuration
-@EnableWebFlux
+//@EnableWebFlux
 public class RoutingConfig {
 
     @Bean
