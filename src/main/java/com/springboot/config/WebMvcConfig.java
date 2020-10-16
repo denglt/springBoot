@@ -1,11 +1,13 @@
 package com.springboot.config;
 
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
 import org.springframework.http.converter.xml.SourceHttpMessageConverter;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,7 +70,11 @@ public class WebMvcConfig implements WebMvcConfigurer { //  WebMvcConfigurer 将
      */
     @Bean
     public HttpMessageConverters customConverters() {
-        HttpMessageConverter jsonHttpMessageConverter = new FastJsonHttpMessageConverter();
+        FastJsonHttpMessageConverter jsonHttpMessageConverter = new FastJsonHttpMessageConverter();
+        List<MediaType> supportMediaTypes = Arrays.asList(MediaType.APPLICATION_JSON, MediaType.TEXT_HTML);
+        jsonHttpMessageConverter.setSupportedMediaTypes(supportMediaTypes);
+        jsonHttpMessageConverter.setFeatures(SerializerFeature.QuoteFieldNames, SerializerFeature.WriteDateUseDateFormat);
+
         HttpMessageConverter jaxb2RootElementHttpMessageConverter = new Jaxb2RootElementHttpMessageConverter();
         HttpMessageConverter sourceHttpMessageConverter = new SourceHttpMessageConverter();
         List<HttpMessageConverter<?>> converterList = new ArrayList<>();
