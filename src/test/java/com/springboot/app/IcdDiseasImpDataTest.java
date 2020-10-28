@@ -2,6 +2,7 @@ package com.springboot.app;
 
 import com.springboot.model.IcdDisease;
 import com.springboot.orm.user.IcdDiseaseDao;
+import com.yuntai.work.IcdDiseasService;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -15,11 +16,21 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.io.FileInputStream;
 import com.yuntai.med.support.util.HzUtils;
+import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.TransactionManagementConfigurationSelector;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * @Description:
@@ -32,32 +43,32 @@ import com.yuntai.med.support.util.HzUtils;
 
 @WebAppConfiguration
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(classes = DemoApplication.class , webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 public class IcdDiseasImpDataTest {
 
     @Autowired
     private IcdDiseaseDao icdDiseaseDao;
 
+    @Resource
+    private IcdDiseasService icdDiseasService;
+
+    @Resource
+    private ApplicationContext applicationContext;
+    
+    
+    
     @Test
-    public void impDdata() throws Exception{
-      //  Workbook wb = new HSSFWorkbook(new FileInputStream("D:\\mywork\\文档\\广东省病案统计系统中医编码.xls"));
+    @Transactional
+    @Rollback(false)
+    public void impData() throws Exception{
+        Object bean = applicationContext.getBean(TransactionManager.class);
+        System.out.println(bean);
+        bean = applicationContext.getBean("txManager2");
+        System.out.println(bean);
         Workbook wb = new XSSFWorkbook(new FileInputStream("D:\\mywork\\文档\\中医病证分类及代码-95版.xlsx"));
         Sheet sheet = wb.getSheetAt(0);
-        Row header = sheet.getRow(0);
 
-        header.forEach(cell -> {
-          //  if (!StringUtils.isEmpty(cell.getStringCellValue()))
-                System.out.println(cell.getColumnIndex() + " ->" + cell.getStringCellValue());
-        });
-
-        System.out.println(sheet.getFirstRowNum());
-        System.out.println(sheet.getLastRowNum());
-        Row tail = sheet.getRow(sheet.getLastRowNum() -1 );
-        tail.forEach(cell -> {
-           // if (!StringUtils.isEmpty(cell.getStringCellValue()))
-                System.out.println(cell.getColumnIndex() + " ->" + cell.getStringCellValue());
-        });
         for (int i = 1; i < sheet.getLastRowNum(); i++) {
             Row hssfRow = sheet.getRow(i);
             IcdDisease icdDisease = new IcdDisease();
@@ -67,7 +78,13 @@ public class IcdDiseasImpDataTest {
             icdDisease.setIcdPinyin(HzUtils.getPinyinCap(icdDisease.getIcdName(), HzUtils.CaseType.UPPERCASE));
             icdDisease.setIcdWb(HzUtils.getWbCap(icdDisease.getIcdName(),HzUtils.CaseType.UPPERCASE));
             icdDiseaseDao.insert(icdDisease);
+            break;
         }
+    }
 
+    @Test
+    @Rollback // 配置了@Rollback也不会回滚
+    public void delete(){
+        icdDiseasService.delete();
     }
 }

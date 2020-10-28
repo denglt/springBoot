@@ -17,7 +17,7 @@ public class LogApplicationEvent  implements ApplicationListener<ApplicationEven
    // @EventListener(value = ApplicationEvent.class)
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
-        logger.info("ApplicationEvent -> " + event.toString());
+      //  logger.info("ApplicationEvent -> " + event.toString());
         if (event instanceof ContextRefreshedEvent) {
             logger.info("spring容器初始化完毕================================================888");
         }

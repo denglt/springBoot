@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@ComponentScan(value = {"com.springboot"})
+@ComponentScan(value = {"com.springboot","com.yuntai"})
 @RestController
 @EnableAutoConfiguration(/*exclude = {DataSourceAutoConfiguration.class}*/) // spring.factories 文件中配置了  Auto Configure
 @EnableCaching

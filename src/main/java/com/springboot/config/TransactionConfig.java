@@ -3,6 +3,7 @@ package com.springboot.config;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
@@ -50,14 +51,17 @@ public class TransactionConfig {
      */
     // 配置默认的 AbstractTransactionManagementConfiguration.PlatformTransactionManager
     @Bean
-    public TransactionManagementConfigurer transactionManagementConfigurer(DataSource dataSource) {
-        return () -> new DataSourceTransactionManager(dataSource);
+    public TransactionManagementConfigurer transactionManagementConfigurer(@Qualifier("txManager")PlatformTransactionManager transactionManager) {
+        return () -> transactionManager;
     }
 
-
-    @Bean
-    @Qualifier("txManager2")
-    public PlatformTransactionManager transactionManager(@Qualifier("secondDataSource") DataSource dataSource) {
+    @Bean("txManager")
+    @Primary     // 由于spring test获取TransactionManager的实现跟spring tx的实现有差异，故加上@Primary，可以保证两种获取默认的TransactionManager一致
+    public PlatformTransactionManager transactionManager(DataSource dataSource) {
+        return  new DataSourceTransactionManager(dataSource);
+    }
+    @Bean("txManager2")
+    public PlatformTransactionManager transactionManager2(@Qualifier("secondDataSource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 }
