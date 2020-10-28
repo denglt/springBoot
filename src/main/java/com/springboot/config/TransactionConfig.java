@@ -56,7 +56,9 @@ public class TransactionConfig {
     }
 
     @Bean("txManager")
-    @Primary     // 由于spring test获取TransactionManager的实现跟spring tx的实现有差异，故加上@Primary，可以保证两种获取默认的TransactionManager一致
+    @Primary     // 由于spring test(5.2.9.RELEASE)获取TransactionManager的实现跟spring tx的实现有差异，故加上@Primary，可以保证两种获取默认的TransactionManager一致
+                 // 最新的spring test（master 没有发布）已经修复了TestContextTransactionUtils.retrieveTransactionManager() 中获取TransactionManager的顺序，
+                 // 优先获取TransactionManagementConfigurer中的TransactionManager
     public PlatformTransactionManager transactionManager(DataSource dataSource) {
         return  new DataSourceTransactionManager(dataSource);
     }
