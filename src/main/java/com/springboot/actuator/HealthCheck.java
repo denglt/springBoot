@@ -2,6 +2,7 @@ package com.springboot.actuator;
 
 import com.springboot.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.health.ConditionalOnEnabledHealthIndicator;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.actuate.health.Status;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
  * @Copyright: 版权归 HSYUNTAI 所有
  */
 @Component
+@ConditionalOnEnabledHealthIndicator("my-health-check") // 当 management.health.my-health-check.enabled = false 时不进行健康检查
 public class HealthCheck implements HealthIndicator {
 
     @Autowired
@@ -22,6 +24,7 @@ public class HealthCheck implements HealthIndicator {
 
     @Override
     public Health health() {
+        System.out.println("run HealthCheck health() ");
         int errorCode = check(); // perform some specific health check
         if (errorCode != 0) {
             return Health.down()

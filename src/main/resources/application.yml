@@ -147,6 +147,12 @@ management:
   server:
     servlet:
       context-path:
+  health:
+    defaults:
+      enabled: true # 默认true
+    my-health-check:
+      enabled: true
+
 #  server:
 #    port: 9080
 
