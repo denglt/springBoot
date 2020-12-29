@@ -1,5 +1,6 @@
 package com.springboot.restapi;
 
+import io.netty.util.internal.SystemPropertyUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -7,7 +8,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -46,6 +49,7 @@ public class SpringWebInfo implements ApplicationContextAware {
     }
 
     @RequestMapping(value = "/beans", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
     public List<Map<String, String>> infoBeanName(HttpServletRequest request) {
         List<Map<String, String>> beans = new ArrayList<>();
         WebApplicationContext context = RequestContextUtils.findWebApplicationContext(request);
@@ -115,6 +119,18 @@ public class SpringWebInfo implements ApplicationContextAware {
         Object bean = applicationContext.getBean(beanName);
         System.out.println(bean);
         return "ok";
+    }
+
+    @RequestMapping(value = "/webpath")
+    public Map<String, String> getPaht(HttpServletRequest request) {
+        Map<String, String> result = new HashMap<>();
+        result.put("getRequestURI:", request.getRequestURI());
+        result.put("getRequestURL:", request.getRequestURL().toString());
+        result.put("getServletPath:", request.getServletPath());
+        result.put("getPathInfo:", request.getPathInfo());
+        result.put("getContextPath()", request.getContextPath());
+        result.put("getServerName():", request.getServerName());
+        return result;
     }
 
     @Override

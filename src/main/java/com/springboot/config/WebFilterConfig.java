@@ -6,6 +6,8 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import javax.servlet.DispatcherType;
+
 /**
  * @Description:
  * @Package: com.springboot.config
@@ -18,7 +20,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 public class WebFilterConfig {
 
     /**
-     * 配置Filter
+     * 配置Filter  , 也可以使用DelegatingFilterProxyRegistrationBean
      *
      * @return
      */
@@ -28,6 +30,8 @@ public class WebFilterConfig {
                 = new FilterRegistrationBean<>();
         registrationBean.setFilter(new RequestResponseLoggingFilter());
         registrationBean.addUrlPatterns("/user/*");
+        // 配置经过filter的类型
+        registrationBean.setDispatcherTypes(DispatcherType.REQUEST,DispatcherType.FORWARD,DispatcherType.INCLUDE,DispatcherType.ERROR);
 
         return registrationBean;
     }

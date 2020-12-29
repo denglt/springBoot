@@ -14,6 +14,9 @@ server:
 application.name: myDemo
 
 
+test.value: '0200102295'
+test.value2: 0200102295
+
 # 复杂对象 必须使用 ConfigurationProperties
 city:
   - 北京
@@ -129,6 +132,7 @@ org:
 # Actuator 监控
 management:
   endpoints:
+    sensitive: false
     web:
       exposure:
         include: "*"
@@ -144,6 +148,12 @@ management:
     health:
       enabled: true
       show-details: always
+      status:
+        #order: UP, DOWN, OUT_OF_SERVICE, UNKNOWN
+        http-mapping: # 这样注册中心consul 会认为服务是健康的
+          DOWN: 200
+          OUT_OF_SERVICE: 200
+          UNKNOWN: 200
   server:
     servlet:
       context-path:
