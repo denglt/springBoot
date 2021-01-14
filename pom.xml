@@ -27,7 +27,7 @@
         <mybatis-plus-boot-starter.versoin>3.3.1</mybatis-plus-boot-starter.versoin>
         <mysql.version>8.0.20</mysql.version>
         <fastjson.version>1.2.25.sec10</fastjson.version>
-        <poi-version>3.16</poi-version>
+        <poi-version>4.1.2</poi-version>
     </properties>
 
     <dependencies>
