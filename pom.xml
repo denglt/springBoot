@@ -6,7 +6,7 @@
     <groupId>com.springboot</groupId>
     <artifactId>demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>demo</name>
     <description>Demo project for Spring Boot</description>
@@ -170,12 +170,6 @@
             <version>${poi-version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.yuntai</groupId>
-            <artifactId>yt-med-support</artifactId>
-            <version>1.0</version>
-        </dependency>
-
         <!-- test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -198,6 +192,11 @@
             <version>2.0.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>dlt.utils</groupId>
+            <artifactId>dltUtils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -239,9 +238,6 @@
           -->
         </plugins>
 
-        <filters>
-            <filter></filter>
-        </filters>
         <resources>
             <resource>
                 <directory>src/main/webapp</directory>

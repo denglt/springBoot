@@ -7,7 +7,7 @@ import com.springboot.model.DrugCatalogue;
 
 import com.springboot.orm.user.DrugCatalogueDao;
 import com.springboot.utils.JsonUtils;
-import com.yuntai.med.support.util.HzUtils;
+import dlt.utils.HzUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;
+
+
 
 /**
  * @Description:

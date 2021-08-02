@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 public class AopConfig {
 
 
-    @Bean
+    //@Bean
     public MyAopBeanPostProcessor myAopBeanPostProcessor(){
         return new MyAopBeanPostProcessor();
     }

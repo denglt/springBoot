@@ -3,6 +3,7 @@ package com.springboot.app;
 import com.springboot.model.IcdDisease;
 import com.springboot.orm.user.IcdDiseaseDao;
 import com.yuntai.work.IcdDiseasService;
+import dlt.utils.HzUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -24,7 +25,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.io.FileInputStream;
-import com.yuntai.med.support.util.HzUtils;
 import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.TransactionManagementConfigurationSelector;

@@ -55,6 +55,7 @@
 			<AppenderRef ref="default" />
 			<AppenderRef ref="error" />
 		</Root>
+
 	</Loggers>
 
 </configuration>
