@@ -54,6 +54,11 @@ public class TransactionConfig {
     public TransactionManagementConfigurer transactionManagementConfigurer(@Qualifier("txManager")PlatformTransactionManager transactionManager) {
         return () -> transactionManager;
     }
+    /*
+      @Transactional  没有指定 value 是如何获取到 PlatformTransactionManager
+      可以跟踪TransactionInterceptor.invoke 来分析下
+
+     */
 
     @Bean("txManager")
     @Primary     // 由于spring test(5.2.9.RELEASE)获取TransactionManager的实现跟spring tx的实现有差异，故加上@Primary，可以保证两种获取默认的TransactionManager一致
