@@ -43,7 +43,7 @@ public class TransactionConfig {
      *  实现接口 TransactionManagementConfigurer 指定默的TransactionManager
      *  可以把 DataSourceTransactionManager 直接注入到 TransactionInterceptor.transactionManager
      *  @see  TransactionManagementConfigurationSelector
-     *  @see  ProxyTransactionManagementConfiguration
+     *  @see  ProxyTransactionManagementConfiguration  使用 TransactionManagementConfigurer 来获取 默认的 PlatformTransactionManager
      *
      * 默认使用： JpaTransactionManager
      * @param dataSource
@@ -56,7 +56,11 @@ public class TransactionConfig {
     }
     /*
       @Transactional  没有指定 value 是如何获取到 PlatformTransactionManager
-      可以跟踪TransactionInterceptor.invoke 来分析下
+      可以跟踪TransactionInterceptor.invoke 来分析下获取 PlatformTransactionManager 顺序：
+         1、@Transactional value 指定名称的PlatformTransactionManager
+         2、TransactionInterceptor.transactionManagerBeanName 属性指定的
+         3、TransactionInterceptor.transactionManager 属性 （该属性默认由TransactionManagementConfigurer注入，见上面分析）
+         4、最后beanFactory.getBean(TransactionManager.class)
 
      */
 

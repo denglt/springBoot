@@ -162,6 +162,8 @@ management:
       enabled: true # 默认true
     my-health-check:
       enabled: true
+    db:
+      enabled: false
 
 #  server:
 #    port: 9080

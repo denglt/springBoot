@@ -233,7 +233,7 @@
                         <JDK_IMAGE>fabric8/java-alpine-openjdk8-jdk</JDK_IMAGE>
                         <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
-                </configuration>
+                </configuration>Oe
             </plugin>
           -->
         </plugins>
@@ -244,7 +244,7 @@
                 <filtering>false</filtering>
             </resource>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>src/main/resources</directory>O
                 <filtering>true</filtering>
             </resource>
             <resource>
