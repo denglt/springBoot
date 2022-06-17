@@ -26,7 +26,7 @@
         <mybatis-spring-boot-starter.version>2.1.1</mybatis-spring-boot-starter.version>
         <mybatis-plus-boot-starter.versoin>3.3.1</mybatis-plus-boot-starter.versoin>
         <mysql.version>8.0.20</mysql.version>
-        <fastjson.version>1.2.25.sec10</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <poi-version>3.16</poi-version>
     </properties>
 
