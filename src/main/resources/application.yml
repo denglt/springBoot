@@ -134,6 +134,9 @@ management:
   endpoints:
     sensitive: false
     web:
+      # base-path:    # 默认：/actuator
+      path-mapping:
+        health: check    # 转换路径 /health -> /check
       exposure:
         include: "*"
   #             - info
@@ -156,7 +159,7 @@ management:
           UNKNOWN: 200
   server:
     servlet:
-      context-path:
+      context-path:   #这种赋值的情况，会被设置为""(空串)
   health:
     defaults:
       enabled: true # 默认true
