@@ -37,7 +37,8 @@ public class WebFluxController {
     @Autowired
     private User author;
 
-    @Autowired
+    @Resource(name="myExecutor")
+    //@Autowired
     private AsyncTaskExecutor executor;
 
 
