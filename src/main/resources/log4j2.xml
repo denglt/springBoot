@@ -17,8 +17,8 @@
 		</Console >
 		<!-- 默认日志 -->
 		<RollingRandomAccessFile name="default" immediateFlush="true" append="true"
-								 fileName="D:/log/demo/demo-server.log"
-								 filePattern="D:/log/demo/demo-server-%d{yyyy-MM-dd}.log">
+								 fileName="/tmp/log/demo-server.log"
+								 filePattern="/tmp/log/demo-server-%d{yyyy-MM-dd}.log">
 			<PatternLayout pattern="${FILE_LOG_PATTERN}" />
 			<Policies>
 				<!-- TimeBased Triggering Policy 基于时间的触发策略。该策略主要是完成周期性的log文件封存工作。有两个参数：
@@ -31,8 +31,8 @@
 
 		<!-- 失败日志 -->
 		<RollingRandomAccessFile name="error" immediateFlush="true" append="true"
-								 fileName="D:/log/demo/error.log"
-								 filePattern="D:/log/demo/error-%d{yyyy-MM-dd}.log">
+								 fileName="/tmp/log/demo-server-error.log"
+								 filePattern="/tmp/log/demo-server-error-%d{yyyy-MM-dd}.log">
 			<Filters>
 				<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
 			</Filters>
