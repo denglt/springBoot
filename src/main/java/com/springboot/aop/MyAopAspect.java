@@ -10,7 +10,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
- * @Description:
+ * @Description:   EnableAspectJAutoProxy
  * @Package: com.springboot.aop
  * @Author: denglt
  * @Date: 2022/7/13 10:52
