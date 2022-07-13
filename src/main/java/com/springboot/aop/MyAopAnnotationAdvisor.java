@@ -11,6 +11,8 @@ import java.lang.annotation.Annotation;
 
 /**
  * Created by denglt on 2016/11/30.
+ *
+ *  使用 @Aspect @Aound("@annotation") 更简单 @see MyAopAspect
  */
 @Service
 public class MyAopAnnotationAdvisor extends AbstractPointcutAdvisor {
