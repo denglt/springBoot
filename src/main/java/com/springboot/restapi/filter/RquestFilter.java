@@ -18,7 +18,7 @@ import java.io.IOException;
  */
 @Component
 @Order(1)
-public class TransactionFilter implements Filter {
+public class RquestFilter implements Filter {
     Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     @Override
@@ -32,14 +32,10 @@ public class TransactionFilter implements Filter {
                          FilterChain chain) throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest) request;
-        LOG.info(
-                "Starting a transaction for req : {}",
-                req.getRequestURI());
+        LOG.info("Starting work for req : {}", req.getRequestURI());
 
         chain.doFilter(request, response);
-        LOG.info(
-                "Committing a transaction for req : {}",
-                req.getRequestURI());
+        LOG.info("end work for req : {}",req.getRequestURI());
     }
 
     @Override

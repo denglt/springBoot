@@ -6,8 +6,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import javax.sql.DataSource;
@@ -34,7 +38,7 @@ public class DataSourceConfig {
     }
 
     @Bean(name = "firstDataSource")
-    @Primary
+    //@Primary
     @ConfigurationProperties(prefix = "app.datasource.db1.hikari")
     public DataSource firstDataSource(DataSourceProperties dataSourceProperties) {
         DataSource dataSource = dataSourceProperties.initializeDataSourceBuilder().build();
@@ -55,15 +59,17 @@ public class DataSourceConfig {
     }
 
     /**
-     *   PlatformTransactionManager 和 Mybatic 配置该 datasource 可以按照交易的读写自动切换数据库，达到读写分离（未测试，应该没啥问题）
+     *   PlatformTransactionManager 和 Mybatic 配置该 datasource 可以按照交易的读写自动切换数据库，达到读写分离
      * @param masterDataSource
      * @param slaveDataSource
      * @return
      */
+
+    @Primary
     @Bean(name = "transactionRoutingDataSource")
     public DataSource routingDataSource(
-            @Qualifier("firstDataSource") DataSource masterDataSource,
-            @Qualifier("secondDataSource") DataSource slaveDataSource
+            @Qualifier("firstDataSource") @Lazy DataSource masterDataSource,
+            @Qualifier("secondDataSource") @Lazy DataSource slaveDataSource
     ) {
         TransactionRoutingDataSource routingDataSource = new TransactionRoutingDataSource();
         Map<Object, Object> dataSourceMap = new HashMap<>();
@@ -78,10 +84,19 @@ public class DataSourceConfig {
 
         @Override
         protected Object determineCurrentLookupKey() {
-            return TransactionSynchronizationManager.isCurrentTransactionReadOnly() ?
+            printTransaction();
+            return TransactionSynchronizationManager.isCurrentTransactionReadOnly() ?  // TransactionSynchronizationManager 在这儿是没有transaction的信息的，
+                                                                                       // 因为  org.springframework.transaction.support.AbstractPlatformTransactionManager#getTransaction()中是先调用DataSource.getConnection(),然后才设置TransactionSynchronizationManager
                     DataSourceType.READ_ONLY : DataSourceType.READ_WRITE;
         }
+
+        void printTransaction(){
+            System.out.println("TransactionSynchronizationManager.isSynchronizationActive() =" + TransactionSynchronizationManager.isSynchronizationActive());
+            System.out.println("TransactionSynchronizationManager.isActualTransactionActive() =" + TransactionSynchronizationManager.isActualTransactionActive());
+            System.out.println("TransactionSynchronizationManager.isCurrentTransactionReadOnly() =" + TransactionSynchronizationManager.isCurrentTransactionReadOnly());
+        }
     }
+
 
     private enum DataSourceType {
         READ_ONLY,

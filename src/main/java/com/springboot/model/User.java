@@ -33,6 +33,7 @@ public class User implements Serializable {
     @TableField(jdbcType = JdbcType.BIGINT , typeHandler = DateToLongTypeHandler.class)
     private Date createTimestamp;  // jdbcType ：bigint；
     private Timestamp zoneCreateTime;
+    @TableField(exist = false)
     private String  noField;
 
     @TableField(exist = false)

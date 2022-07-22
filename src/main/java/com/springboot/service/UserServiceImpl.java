@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
@@ -46,7 +47,7 @@ public class UserServiceImpl {
     private User2Dao user2Dao;
 
     @Autowired
-    private com.springboot.orm2.user.UserDao orm2UserDao;
+    private com.springboot.orm2.user.UserDao orm2UserDao; // db2
 
  /*   @Autowired
     private StringRedisTemplate stringRedisTemplate;*/
@@ -137,8 +138,10 @@ public class UserServiceImpl {
         return newUser;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public User createUserByRandom() {
+        System.out.println("begin createUserByRandom()");
+        printTransaction();
         User newUser = new User();
         newUser.setName("denglt" + System.currentTimeMillis());
         newUser.setPassword(null);
@@ -150,6 +153,12 @@ public class UserServiceImpl {
         userDao.insert(newUser);
        // throw new RuntimeException("就是要报错！");
         return newUser;
+    }
+
+    void printTransaction(){
+        System.out.println("TransactionSynchronizationManager.isSynchronizationActive() =" + TransactionSynchronizationManager.isSynchronizationActive());
+        System.out.println("TransactionSynchronizationManager.isActualTransactionActive() =" + TransactionSynchronizationManager.isActualTransactionActive());
+        System.out.println("TransactionSynchronizationManager.isCurrentTransactionReadOnly() =" + TransactionSynchronizationManager.isCurrentTransactionReadOnly());
     }
 
     @Transactional(value = "txManager2")

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-public class MyAopAspect {
+public class MyAopAspect { // implements Ordered  like @Order
 
     private static final Logger logger = LoggerFactory.getLogger(MyAopAspect.class);
 
