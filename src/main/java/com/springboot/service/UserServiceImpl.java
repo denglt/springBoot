@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import javax.annotation.PostConstruct;
@@ -151,6 +153,49 @@ public class UserServiceImpl {
         newUser.setZoneCreateTime(new Timestamp(date.getTime()));
         newUser.setNoField("nofield");
         userDao.insert(newUser);
+
+        // @TransactionalEventListener 实际上就是变相TransactionSynchronizationManager.registerSynchronization的实现
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() { // 监听 Transaction 状态，执行对应方法
+            @Override
+            public int getOrder() {
+                return super.getOrder();
+            }
+
+            @Override
+            public void suspend() {
+                super.suspend();
+            }
+
+            @Override
+            public void resume() {
+                super.resume();
+            }
+
+            @Override
+            public void flush() {
+                super.flush();
+            }
+
+            @Override
+            public void beforeCommit(boolean readOnly) {
+                super.beforeCommit(readOnly);
+            }
+
+            @Override
+            public void beforeCompletion() {
+                super.beforeCompletion();
+            }
+
+            @Override
+            public void afterCommit() {
+                super.afterCommit();
+            }
+
+            @Override
+            public void afterCompletion(int status) {
+                super.afterCompletion(status);
+            }
+        });
        // throw new RuntimeException("就是要报错！");
         return newUser;
     }
