@@ -6,9 +6,10 @@ server:
     context-path: /springboot
     session:
       timeout:
-  port: ${demo.server.port}
+  port: ${demo.server.port}   ## 操作系统环境变量 SERVER_PORT 的优先级别高于这儿的设置 (可使用actuator/env 进行观察 看server.port.png 结果）
   address:
   connection-timeout: 10s
+
 
 
 application.name: myDemo
