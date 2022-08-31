@@ -10,7 +10,9 @@ server:
   address:
   connection-timeout: 10s
 
-
+test.nested: ${test.nested1}
+test.nested1: ${test.nested2}
+test.nested2: 获取多层nested成功
 
 application.name: myDemo
 
