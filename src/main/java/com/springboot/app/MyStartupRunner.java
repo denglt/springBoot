@@ -54,6 +54,7 @@ public class MyStartupRunner implements CommandLineRunner {  // ApplicationRunne
             logger.info("default profile -> {}", s);
         }
 
+        environment.getProperty("server.port");
         logger.info("server.port -> {}", environment.getProperty("server.port"));
         logger.info("city -> {}", environment.getProperty("city"));
         logger.info("acme.list -> {}", environment.getProperty("acme.list"));
