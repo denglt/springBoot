@@ -33,7 +33,7 @@ public class MyAopAspect { // implements Ordered  like @Order
     }
 
     @Order(Integer.MIN_VALUE+1)
-    @Around("@annotation(myAopAnnotation)")
+    @Around("@annotation(myAopAnnotation)")  //  @Around("@within(myAopAnnotation) || @annotation(myAopAnnotation)") // @within 类上   @annotation 方法上
     Object myAopAround2(ProceedingJoinPoint pjp, MyAopAnnotation myAopAnnotation) throws Throwable{
         logger.info("MyAopAspect myAopAround2 begin ..." + myAopAnnotation.value());
         Object retVal = pjp.proceed();
