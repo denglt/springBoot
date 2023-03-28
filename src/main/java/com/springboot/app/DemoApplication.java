@@ -49,7 +49,7 @@ public class DemoApplication  {  // extends SpringBootServletInitializer  for sp
       //  springApplication.setWebApplicationType(WebApplicationType.NONE);
         springApplication.setBannerMode(Banner.Mode.CONSOLE);
         // springApplication.setApplicationContextClass();
-        // springApplication.addInitializers();
+        // springApplication.addInitializers(); // ApplicationContextInitializer
        // springApplication.setAllowBeanDefinitionOverriding(true); // spring boot 2.3.4
         applicationContext = springApplication.run(args);
         //springApplication.setWebApplicationType(WebApplicationType.REACTIVE);
