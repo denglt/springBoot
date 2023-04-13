@@ -1,6 +1,17 @@
 # Server HTTP port.
 
 # spring boot 通过 ConfigFileApplicationListener 加载 application.yml\preperties 文件
+
+my:
+  custom:
+    property: someValue
+
+app:
+  version: @server.version@   ## @server.version@  将在mvn compile的时候被pom文件中定义的<server.version>2.0.0</server.version>替换
+  build:
+    time: @server.build.time@
+
+
 server:
   servlet:
     context-path: /springboot
