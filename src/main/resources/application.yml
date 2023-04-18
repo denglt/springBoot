@@ -210,6 +210,21 @@ mybatis.db2:
   configuration:
     map-underscore-to-camel-case: true
 
+dubbo:
+  application:
+    name: demo-server
+  registry:
+    address: 127.0.0.1:2181
+    file: ./demo-server.cache
+    timeout: 60000
+    protocol: zookeeper
+  protocol:
+    port: -1
+    name: dubbo
+    accesslog: true
+    payload: 524528800
+  consumer:
+    timeout: 60000
 
 #yml文件中支持使用三个短横线分割文档块的方式
 

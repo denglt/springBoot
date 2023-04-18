@@ -1,14 +1,12 @@
 package com.springboot.restapi;
 
-import io.netty.util.internal.SystemPropertyUtil;
+import com.yuntai.hdp.access.service.AccessHospitalHandler;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,10 +26,13 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/springweb")
 public class SpringWebInfo implements ApplicationContextAware {
 
-    public SpringWebInfo(List<Object> objects) {
+    @Autowired
+    private AccessHospitalHandler accessHospitalHandler;
+
+/*    public SpringWebInfo(List<Object> objects) {
         System.out.println("SpringWebInfo ->" + objects.size());
         objects.stream().filter(o -> o instanceof SpringWebInfo).forEach(System.out::println);
-    }
+    }*/
 
     @RequestMapping(value = "/appContext")
     public String infoApplicationContext(HttpServletRequest request) {

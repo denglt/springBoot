@@ -30,6 +30,10 @@
         <mysql.version>8.0.20</mysql.version>
         <fastjson.version>1.2.25.sec10</fastjson.version>
         <poi-version>3.16</poi-version>
+        <apache.curator-client.version>4.2.0</apache.curator-client.version>
+        <apache.curator-recipes.version>4.2.0</apache.curator-recipes.version>
+        <apache.curator-x-discovery.version>4.2.0</apache.curator-x-discovery.version>
+        <apache.curator-framework.version>4.2.0</apache.curator-framework.version>
     </properties>
 
     <dependencies>
@@ -206,9 +210,57 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>2.7.15</version>
+        </dependency>
+
+        <dependency><!-- zookeeper 的连接管理客户端-->
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-client</artifactId>
+            <version>${apache.curator-client.version}</version>
+        </dependency>
+
+        <dependency><!-- zookeeper 的连接管理客户端-->
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>${apache.curator-framework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>${apache.curator-recipes.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.zookeeper</groupId>
+                    <artifactId>zookeeper</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-x-discovery</artifactId>
+            <version>${apache.curator-x-discovery.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.yuntai</groupId>
+            <artifactId>hs-hdp-api</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>dlt.utils</groupId>
             <artifactId>dltUtils</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>dubbo</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>
