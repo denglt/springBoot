@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @EnableCaching
-@SpringBootApplication(scanBasePackages = {"com.springboot","com.yuntai","dlt.utils.spring"}
+@SpringBootApplication(scanBasePackages = {"com.springboot.config","dlt.utils.spring","com.springboot","com.yuntai"}
      /* exclude = {DataSourceAutoConfiguration.class} */)
 public class DemoApplication  {  // extends SpringBootServletInitializer  for spring boot war(部署到容器时使用)
 

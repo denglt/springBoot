@@ -249,8 +249,9 @@
         <dependency>
             <groupId>com.yuntai</groupId>
             <artifactId>hs-hdp-api</artifactId>
-            <version>2.0.0</version>
+            <version>1.2.0</version>
         </dependency>
+
         <dependency>
             <groupId>dlt.utils</groupId>
             <artifactId>dltUtils</artifactId>

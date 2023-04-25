@@ -16,6 +16,7 @@ import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/springweb")
 public class SpringWebInfo implements ApplicationContextAware {
 
-    @Autowired
+    @Resource
     private AccessHospitalHandler accessHospitalHandler;
 
 /*    public SpringWebInfo(List<Object> objects) {
