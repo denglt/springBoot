@@ -3,10 +3,12 @@ package com.springboot.restapi;
 import com.yuntai.hdp.access.service.AccessHospitalHandler;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +31,10 @@ public class SpringWebInfo implements ApplicationContextAware {
 
     @Resource
     private AccessHospitalHandler accessHospitalHandler;
+
+    @Autowired(required = false)
+    @Qualifier("springSecurityFilterChain")
+    private FilterChainProxy filterChainProxy;
 
 /*    public SpringWebInfo(List<Object> objects) {
         System.out.println("SpringWebInfo ->" + objects.size());

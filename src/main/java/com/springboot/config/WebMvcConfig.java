@@ -51,12 +51,12 @@ public class WebMvcConfig implements WebMvcConfigurer { //  WebMvcConfigurer 将
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-
+        System.out.println(resolvers);
     }
 
     @Override
     public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> handlers) {
-
+        System.out.println(handlers);
     }
 
     /**

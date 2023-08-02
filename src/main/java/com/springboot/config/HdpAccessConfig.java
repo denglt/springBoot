@@ -47,5 +47,4 @@ public class HdpAccessConfig {
    @DubboReference(timeout = 60000, retries = 0 ,check = false)
    private AccessHospitalHandler accessHospitalHandler;
 
-
 }

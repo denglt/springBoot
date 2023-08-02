@@ -6,18 +6,21 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+@EnableZuulProxy
 @RestController
 @EnableCaching
-@SpringBootApplication(scanBasePackages = {"com.springboot.config","dlt.utils.spring","com.springboot","com.yuntai"}
-     /* exclude = {DataSourceAutoConfiguration.class} */)
+@SpringBootApplication(scanBasePackages = {"com.springboot.config","dlt.utils.spring","com.springboot","com.yuntai"},
+  exclude = {DataSourceAutoConfiguration.class})
 public class DemoApplication  {  // extends SpringBootServletInitializer  for spring boot war(部署到容器时使用)
 
     private static ConfigurableApplicationContext applicationContext;
