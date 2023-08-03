@@ -11,7 +11,7 @@
 		<!-- 定义控制台输出 -->
 		<Console name="console" target="SYSTEM_OUT" follow="true">
 			<Filters>
-				<ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+				<ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
 			</Filters>
             <PatternLayout pattern="${CONSOLE_LOG_PATTERN}"/>
 		</Console >
@@ -50,7 +50,7 @@
 			<AppenderRef ref="error" />
 		</Logger>
 
-		<Root level="info"> <!-- 全局配置 -->
+		<Root level="ALL"> <!-- 全局配置 -->
 			<AppenderRef ref="console" />
 			<AppenderRef ref="default" />
 			<AppenderRef ref="error" />

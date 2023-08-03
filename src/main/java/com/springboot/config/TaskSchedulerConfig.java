@@ -46,7 +46,7 @@ public class TaskSchedulerConfig implements SchedulingConfigurer {  // Scheduled
 
     @Scheduled(fixedRate = 2000)
     public void scheduleTaskWithFixedRate() {
-        logger.info("Fixed Rate Task :: Execution Time - {}", LocalDateTime.now());
+       // logger.info("Fixed Rate Task :: Execution Time - {}", LocalDateTime.now());
         try {
             TimeUnit.SECONDS.sleep(5);   // 最终 5s 一次
         } catch (InterruptedException ex) {

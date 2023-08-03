@@ -1,5 +1,7 @@
 package com.springboot.config;
 
+import com.yuntai.hdp.access.RequestPack;
+import com.yuntai.hdp.access.ResultPack;
 import com.yuntai.hdp.access.service.AccessHospitalHandler;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.ReferenceBean;
@@ -44,7 +46,13 @@ public class HdpAccessConfig {
                return new ReferenceBean<>();
            }
      */
-   @DubboReference(timeout = 60000, retries = 0 ,check = false)
+
+   // @DubboReference(timeout = 60000, retries = 0 ,check = false)
    private AccessHospitalHandler accessHospitalHandler;
+   // 去掉 dubbo，这儿 new 一个 AccessHospitalHandler
+   @Bean
+   public AccessHospitalHandler accessHospitalHandler(){
+       return (request, timeout) -> null;
+   }
 
 }

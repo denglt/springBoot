@@ -80,7 +80,7 @@ public class UserServiceImpl {
 
         User admin = new User();
         admin.setName("admin");
-        admin.setPassword("admin");
+        admin.setPassword("123456");
         admin.setRole("ADMIN");
         users.add(admin);
     }

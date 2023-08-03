@@ -35,13 +35,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //http.csrf()
-        http.authorizeRequests()
+        http.csrf().disable() // Spring Security 默认启用了 CSRF 保护，它要求所有修改状态的请求（如 POST、PUT、DELETE 等）都必须包含一个有效的 CSRF 令牌。如果您的 POST 请求中没有包含有效的 CSRF 令牌，那么服务器会拒绝您的请求并返回 403 错误
+                .authorizeRequests()
                 .antMatchers("/actuator/**").hasRole("ADMIN")//ADMIN role can access /admin/**
+                .anyRequest().permitAll()
                 //.anyRequest().authenticated()//any other request just need authentication
                 .and()
-                .formLogin();//enable form login
-      // super.configure(http);
+                .formLogin() //enable form login
+                .and()
+                .httpBasic();
+        // super.configure(http);
     }
 
     @Override

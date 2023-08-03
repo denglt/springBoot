@@ -217,7 +217,7 @@ mybatis.db2:
   configuration:
     map-underscore-to-camel-case: true
 
-dubbo:
+dubbo-del:
   application:
     name: demo-server
   registry:
