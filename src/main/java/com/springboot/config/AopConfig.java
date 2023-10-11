@@ -1,8 +1,10 @@
 package com.springboot.config;
 
 import com.springboot.aop.MyAopBeanPostProcessor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+
 
 /**
  * @Description:
@@ -14,6 +16,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AopConfig {
+
+    public AopConfig(){
+        System.out.println("create AopConfig");
+    }
 
 
     //@Bean

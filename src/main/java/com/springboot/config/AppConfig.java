@@ -1,11 +1,21 @@
 package com.springboot.config;
 
 import com.springboot.model.User;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.*;
 
 @Configuration
 //@ImportResource({"classpath:/spring/scheduler.xml"})  // 导入xml配置文件
-public class AppConfig {
+public class AppConfig implements InitializingBean {
+
+    public AppConfig(){
+        System.out.println("create AppConfig");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("AppConfig  afterPropertiesSet() ");
+    }
 
     @Bean("author")
     @Scope("singleton")  // singleton // prototype // session

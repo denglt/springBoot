@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import javax.annotation.Resource;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -25,6 +26,11 @@ import java.util.concurrent.ThreadPoolExecutor;
 @ConfigurationProperties(prefix = "spring.task.execution.pool")
 public class AsyncTaskConfig implements AsyncConfigurer, InitializingBean {
 
+    @Resource
+    private AppConfig appConfig; // 仅仅测试
+    public AsyncTaskConfig(){
+        System.out.println("create AsyncTaskConfig");
+    }
     private int corePoolSize = 2;
     private int maxPoolSize = 5;
     private int queueCapacity = 100;
@@ -34,6 +40,7 @@ public class AsyncTaskConfig implements AsyncConfigurer, InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        System.out.println("AsyncTaskConfig afterPropertiesSet()");
         System.out.println("keepAliveSeconds -> " + keepAliveSeconds);
         taskExecutor = new ThreadPoolTaskExecutor();
         taskExecutor.setCorePoolSize(corePoolSize);
