@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.bind.Bindable;
+import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 
 
 @Order(1)
@@ -56,12 +59,15 @@ public class MyStartupRunner implements CommandLineRunner {  // ApplicationRunne
 
         environment.getProperty("server.port");
         logger.info("server.port -> {}", environment.getProperty("server.port"));
-        logger.info("city -> {}", environment.getProperty("city"));
+        logger.info("spring.city -> {}", environment.getProperty("spring.city[0]"));
+        logger.info("spring citys -> {}", Binder.get(environment).bind("spring.city", Bindable.listOf(String.class)).orElse(null));
+        logger.info("city -> {}", environment.getProperty("city[0]"));
         logger.info("acme.list -> {}", environment.getProperty("acme.list"));
         logger.info("acme.list.name -> {}", environment.getProperty("acme.list.name"));
         logger.info("acme.map.key1.name -> {}", environment.getProperty("acme.map.key1.name"));
         logger.info("logging.path -> {}", environment.getProperty("logging.path"));
         logger.info("test.nested -> {}",environment.getProperty("test.nested"));
+
 
     }
 }
