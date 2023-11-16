@@ -22,10 +22,10 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService1,UserService2 {
 
     //  @Autowired
-    private User author;
+    public User author; // 改为pulbic，测试cglib代理后，proxy是否可以访问? 测试后proxy对象访问该属性为null;
 
     //  @Autowired
     private User author2;
@@ -103,6 +103,7 @@ public class UserServiceImpl {
     }
 
     @Transactional(value = "txManager2")
+    @Override
     public User get(Integer id) {
         System.out.println("get user -> " + id);
         return users.stream().filter(u -> u.getId().equals(id)).findFirst().get();

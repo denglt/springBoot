@@ -1,5 +1,6 @@
 package com.springboot.app;
 
+import org.apache.catalina.connector.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner;
@@ -12,8 +13,11 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @EnableZuulProxy
@@ -86,4 +90,10 @@ public class DemoApplication  {  // extends SpringBootServletInitializer  for sp
             return 1;
         };
     }
+
+/*    @Bean error
+    HttpServletRequest myRequest(HttpServletRequest request){
+       return new SecurityContextHolderAwareRequestWrapper(request,"dddd");
+    }
+ */
 }

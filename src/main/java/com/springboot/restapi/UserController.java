@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.springboot.aop.MyAopAnnotation;
 import com.springboot.model.User;
 import com.springboot.orm.user.UserDao;
+import com.springboot.service.UserService1;
+import com.springboot.service.UserService2;
 import com.springboot.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,16 +36,27 @@ public class UserController {
     User author2;
 
     @Autowired
-    UserServiceImpl userService;
+    UserServiceImpl userService;  // 为cglib代理后的UserServiceImpl的proxy对象，如果用该proxy访问UserServiceImpl.author，无法获取到正确的属性值
+
+    @Resource
+    UserService1 userService1;// 同上为同一个proxy对象
+
+    @Resource
+    UserService2 userService2;// 同上为同一个proxy对象
 
     @Autowired
     ServiceImpl<UserDao,User> baseUserService;
 
-    @MyAopAnnotation(value = "u/ser/get")
+    @Resource
+    private HttpServletRequest request;
+
+    @MyAopAnnotation(value = "/user/get")
     @Cacheable(value = "user")
     @RequestMapping(value = "/{userId}", method = {RequestMethod.POST, RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public User get(@PathVariable(value = "userId") Integer userId) {
+    public User get(@PathVariable(value = "userId") Integer userId , HttpServletRequest request) {
         System.out.println("userId -> " + userId);
+        System.out.println(userService.author); // 为null，无法获取到数据
+        System.out.println(userService.getAuthor()); // 可以获取到数据
         return userService.get(userId);
     }
 
