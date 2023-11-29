@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -53,13 +54,14 @@ public class DemoApplication  {  // extends SpringBootServletInitializer  for sp
     private static void run1(String[] args) {
         SpringApplication springApplication = new SpringApplication(DemoApplication.class); // AnnotationConfigApplicationContext,AnnotationConfigServletWebServerApplicationContext
       //  springApplication.setBanner((environment, sourceClass, out) -> out.println("hello world by denglt!"));
-      //  springApplication.setWebApplicationType(WebApplicationType.NONE);
+       springApplication.setWebApplicationType(WebApplicationType.NONE);
+       springApplication.setWebApplicationType(WebApplicationType.REACTIVE);
+
         springApplication.setBannerMode(Banner.Mode.CONSOLE);
         // springApplication.setApplicationContextClass();
         // springApplication.addInitializers(); // ApplicationContextInitializer
        // springApplication.setAllowBeanDefinitionOverriding(true); // spring boot 2.3.4
         applicationContext = springApplication.run(args);
-        //springApplication.setWebApplicationType(WebApplicationType.REACTIVE);
     }
 
     private static void run2(String[] args) {

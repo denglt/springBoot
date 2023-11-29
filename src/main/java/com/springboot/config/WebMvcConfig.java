@@ -13,6 +13,7 @@ import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConvert
 import org.springframework.http.converter.xml.SourceHttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
+import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,6 +45,7 @@ import java.util.List;
 
 @Configuration
 //@EnableWebMvc
+//@EnableWebFlux
 //@ServletComponentScan(basePackages = "com.springboot")  // scan @WebServlet, @WebFilter, @WebListener (servlet 3.0)
 public class WebMvcConfig implements WebMvcConfigurer { //  WebMvcConfigurer 将会注入到 DelegatingWebMvcConfiguration中，进行WebMvc的自定义
 

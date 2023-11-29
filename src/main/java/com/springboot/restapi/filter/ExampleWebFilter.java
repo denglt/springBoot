@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
  * @Copyright: 版权归 HSYUNTAI 所有
  */
 @Component
-public class ExampleWebFilter implements WebFilter {
+public class ExampleWebFilter implements WebFilter { // webflux 过滤用
 
     Logger LOG = LoggerFactory.getLogger(this.getClass());
 

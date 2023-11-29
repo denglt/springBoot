@@ -1,11 +1,9 @@
 package com.springboot.config;
 
 import com.springboot.restapi.filter.RequestResponseLoggingFilter;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.servlet.DispatcherType;
 
