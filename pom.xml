@@ -19,6 +19,7 @@
     </parent>
 
     <properties>
+        <maven.build.timestamp.format>yyyy-MM-dd_HH:mm:ss</maven.build.timestamp.format>
         <server.build.time>${maven.build.timestamp}</server.build.time>
         <server.version>2.0.0</server.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -247,8 +248,9 @@
         <dependency>
             <groupId>com.yuntai</groupId>
             <artifactId>hs-hdp-api</artifactId>
-            <version>1.2.0</version>
+            <version>1.3.0-SNAPSHOT</version>
         </dependency>
+        
 
 
         <dependency>

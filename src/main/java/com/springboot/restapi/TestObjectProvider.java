@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
 import javax.servlet.Filter;
 import java.util.List;
 import java.util.Optional;
@@ -24,35 +23,33 @@ import java.util.Optional;
 @RestController
 public class TestObjectProvider {
 
-
     @Autowired
     private ObjectFactory<List<Filter>> filters; // instance is DefaultListableBeanFactory.DependencyObjectProvider
 
-    @Inject
+    @Autowired
     private ObjectProvider<List<Filter>> filters2; // instance is DefaultListableBeanFactory.DependencyObjectProvider
 
     @Autowired
     private ObjectFactory<MyAopBeanPostProcessor> noExists;
 
-    @Inject
+    @Autowired
     private ObjectProvider<MyAopBeanPostProcessor> noExists2;
 
-    @Inject
+    @Autowired
     private ObjectProvider<Optional<MyAopBeanPostProcessor>> noOptional;
 
     @RequestMapping(value = "/filters", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String filters() {
-         List<Filter> filters = this.filters.getObject();
-        return  filters != null ? "size of filters is " + filters.size(): "ObjectFactory can get filters";
+        List<Filter> filters = this.filters.getObject();
+        return filters != null ? "size of filters is " + filters.size() : "ObjectFactory can get filters";
     }
 
-    public  void get(){
-        noExists.getObject() ; // throw  NoSuchBeanDefinitionException;
-        noExists2.getObject() ;// throw  NoSuchBeanDefinitionException;
+    public void get() {
+        noExists.getObject(); // throw NoSuchBeanDefinitionException;
+        noExists2.getObject();// throw NoSuchBeanDefinitionException;
         noExists2.getIfAvailable(); // return null;
 
         noOptional.getObject();// return Optional.empty
         noOptional.getIfAvailable();// eturn Optional.empty
     }
 }
-
