@@ -54,8 +54,8 @@ public class DemoApplication  {  // extends SpringBootServletInitializer  for sp
     private static void run1(String[] args) {
         SpringApplication springApplication = new SpringApplication(DemoApplication.class); // AnnotationConfigApplicationContext,AnnotationConfigServletWebServerApplicationContext
       //  springApplication.setBanner((environment, sourceClass, out) -> out.println("hello world by denglt!"));
-       springApplication.setWebApplicationType(WebApplicationType.NONE);
-       springApplication.setWebApplicationType(WebApplicationType.REACTIVE);
+       //springApplication.setWebApplicationType(WebApplicationType.NONE);
+       //springApplication.setWebApplicationType(WebApplicationType.REACTIVE);
 
         springApplication.setBannerMode(Banner.Mode.CONSOLE);
         // springApplication.setApplicationContextClass();
