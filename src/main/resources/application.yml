@@ -8,9 +8,9 @@ my:
 
 app:
   version: @server.version@   ## @server.version@  将在mvn compile的时候被pom文件中定义的<server.version>2.0.0</server.version>替换
+  name: @project.artifactId@
   build:
     time: @server.build.time@
-   ##  time2: ${server.build.time}
 
 
 server:

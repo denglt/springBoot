@@ -33,10 +33,12 @@ public class MyBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegi
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
         System.out.println(registry);
+        // registry.registerBeanDefinition();
     }
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         System.out.println(beanFactory);
+       //  beanFactory.registerSingleton();
     }
 }

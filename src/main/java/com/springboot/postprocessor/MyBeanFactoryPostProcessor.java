@@ -1,5 +1,6 @@
 package com.springboot.postprocessor;
 
+import com.springboot.config.TestConfig;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -9,6 +10,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * @Description:
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor , ApplicationContextAware {
 
+
     private ApplicationContext applicationContext;
     public MyBeanFactoryPostProcessor() {
         System.out.println("create MyBeanFactoryPostProcessor ");
@@ -32,6 +36,7 @@ public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor , Ap
         Environment environment = applicationContext.getEnvironment();  // 这儿 applicationContext 可以使用，setApplicationContext 方法已经执行
         // 这儿可以注册自己要创建的对接
         //((DefaultListableBeanFactory)beanFactory).registerBeanDefinition(BeanDefinitionBuilder.genericBeanDefinition() );
+        // beanFactory.registerSingleton();
     }
 
     @Override
