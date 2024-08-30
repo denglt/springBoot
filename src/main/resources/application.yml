@@ -18,7 +18,7 @@ test.nested: ${test.nested1}
 test.nested1: ${test.nested2}
 test.nested2: 获取多层nested成功
 
-application.name: myDemo
+application.name: myDemoInApplication.yml
 
 
 test.value: '0200102295'

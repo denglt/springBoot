@@ -68,6 +68,7 @@ public class MyStartupRunner implements CommandLineRunner {  // ApplicationRunne
         logger.info("logging.path -> {}", environment.getProperty("logging.path"));
         logger.info("test.nested -> {}",environment.getProperty("test.nested"));
         logger.info("application.name -> {}",environment.getProperty("application.name"));
+        logger.info("appName -> {}",appName);
 
 
     }

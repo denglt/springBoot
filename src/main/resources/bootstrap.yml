@@ -1,6 +1,6 @@
 spring:
   application:
-    name: my-demo-new
+    name: demo   # application-demo.yml
   city:
     - 北京
     - 上海
