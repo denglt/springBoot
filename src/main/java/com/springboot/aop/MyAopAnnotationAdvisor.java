@@ -28,7 +28,7 @@ public class MyAopAnnotationAdvisor extends AbstractPointcutAdvisor {
 
     public MyAopAnnotationAdvisor(Class<? extends Annotation> annotationType){
         this.advice = buildAdvice();
-        this .pointcut = buildPointcut(annotationType);
+        this.pointcut = buildPointcut(annotationType);
 
     }
     @Override

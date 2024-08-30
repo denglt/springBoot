@@ -59,7 +59,7 @@ public class DemoApplication  {  // extends SpringBootServletInitializer  for sp
 
         springApplication.setBannerMode(Banner.Mode.CONSOLE);
         // springApplication.setApplicationContextClass();
-        // springApplication.addInitializers(); // ApplicationContextInitializer
+        springApplication.addInitializers(new MyApplicationContextInitializer()); // ApplicationContextInitializer 在ConfigurableApplicationContext.refresh()前执行；ContextRefreshedEvent为refresh后事件，Object都已经创建好了
        // springApplication.setAllowBeanDefinitionOverriding(true); // spring boot 2.3.4
         applicationContext = springApplication.run(args);
     }

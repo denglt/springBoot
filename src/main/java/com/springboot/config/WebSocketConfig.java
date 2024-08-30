@@ -29,8 +29,8 @@ import java.util.Map;
  * @Copyright: 版权归 HSYUNTAI 所有
  */
 
-@Configuration
-@EnableWebSocket
+// @Configuration
+// @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer { // 以后可以搞个STOMP的实现
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketConfig.class);
