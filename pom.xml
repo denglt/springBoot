@@ -30,7 +30,7 @@
         <mybatis-plus-boot-starter.versoin>3.3.1</mybatis-plus-boot-starter.versoin>
         <mysql.version>8.0.20</mysql.version>
         <fastjson.version>1.2.25.sec10</fastjson.version>
-        <poi-version>3.16</poi-version>
+        <poi-version>5.4.0</poi-version>
         <apache.curator-client.version>4.2.0</apache.curator-client.version>
         <apache.curator-recipes.version>4.2.0</apache.curator-recipes.version>
         <apache.curator-x-discovery.version>4.2.0</apache.curator-x-discovery.version>
